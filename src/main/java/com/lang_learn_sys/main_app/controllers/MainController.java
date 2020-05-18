@@ -1,18 +1,34 @@
 package com.lang_learn_sys.main_app.controllers;
 
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@Configuration
-public class MainController implements WebMvcConfigurer {
+@Controller
+public class MainController {
+    @RequestMapping("/home")
+    public String goHome() {
+        return "home";
+    }
 
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/home").setViewName("home");
-        registry.addViewController("/").setViewName("home");
-        registry.addViewController("/hello").setViewName("hello");
-        registry.addViewController("/login").setViewName("login");
+    @RequestMapping("/")
+    public String basic() {
+        return "home";
+    }
+
+    @RequestMapping("/hello")
+    public String helloPage() {
+        return "hello";
+    }
+
+    @RequestMapping("/login")
+    public String logForm() {
+        return "login";
+    }
+
+    @RequestMapping("/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
     }
 
 }
