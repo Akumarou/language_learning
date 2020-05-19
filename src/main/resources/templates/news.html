@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<head>
+    <meta charset="utf-8">
+    <title>Новости</title>
+</head>
+<body>
+<div>
+    <h2>Новости <br> Для всех.</h2>
+    <div sec:authorize="isAuthenticated()">
+        <h2>Новости <br> Только для залогинившихся пользователей.</h2>
+    </div>
+    <a th:href="@{/}">Главная</a>
+</div>
+</body>
+</html>

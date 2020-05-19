@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Spring Security Example </title>
+    <meta charset="utf-8">
+    <title>Авторизация</title>
 </head>
+
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
+<div sec:authorize="isAuthenticated()">
+    <h1> Вы уже авторизированы!</h1>
+    <br/>
+    <a th:href="@{/logout}">Выйти</a>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
+<div sec:authorize="!isAuthenticated()">
+    <form method="POST" th:action="@{/login}">
+        <h2>Вход в систему:</h2>
+        <div>
+            <input name="username" type="text" placeholder="Username"
+                   autofocus="true"/>
+            <input name="password" type="password" placeholder="Password"/>
+            <button type="submit">Log In</button>
+            <h4><a th:href="@{/registration}">Зарегистрироваться</a></h4>
+        </div>
+    </form>
 </div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+
+<a th:href="@{/}">Вернуться на главную</a>
 </body>
 </html>

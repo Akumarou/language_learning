@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Регистрация</title>
+</head>
+
+<body>
+<div>
+    <form th:action="@{/registration}" method="POST"  th:object="${userForm}">
+        <h2>Регистрация</h2>
+        <div>
+            <input type="text" th:field="*{username}" placeholder="Username" autofocus="true" />
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect date</p>
+            <p th:text="${usernameError}"></p>
+<!--            <form:errors path="username"></form:errors>-->
+<!--            ${usernameError}-->
+        </div>
+        <div>
+            <input type="password" th:field="*{password}" placeholder="Password"/>
+        </div>
+        <div>
+            <input type="password" th:field="*{passwordConfirm}" placeholder="Confirm your password"/>
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
+            <p th:text="${passwordError}"></p>
+<!--            <form:errors path="password"></form:errors>-->
+<!--            ${passwordError}-->
+        </div>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть аккаунт? </p><a th:href="@{/login}">Войдите</a>
+    <a th:href="@{/}">Главная</a>
+</div>
+</body>
+</html>
