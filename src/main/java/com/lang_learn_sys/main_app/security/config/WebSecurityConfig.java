@@ -1,4 +1,4 @@
-package com.lang_learn_sys.main_app.controllers;
+package com.lang_learn_sys.main_app.security.config;
 
 import com.lang_learn_sys.main_app.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 //Доступ только для не зарегистрированных пользователей
-                .antMatchers("/registration").not().fullyAuthenticated()
+                .antMatchers("/registration").permitAll()
                 //Доступ только для пользователей с ролью Администратор
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/news").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("USER")
+                .antMatchers("/news").permitAll()
                 //Доступ разрешен всем пользователей
                 .antMatchers("/resources/**").permitAll()
                 //Все остальные страницы требуют аутентификации

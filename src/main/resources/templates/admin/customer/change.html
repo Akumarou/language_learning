@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма пользователя</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form action="#" th:action="@{/admin/customer/list}" th:object="${theCustomer}" method="post">
+    <h1>Добавление/изменение пользователя</h1>
+    <input type="hidden" th:field="*{id}" /><br/>
+    <label>Ник пользователя: </label><select th:field="*{user_id}">
+        <option th:each="user : ${allUsers}"
+                th:value="${user.id}"
+                th:text="${user.username}">
+        </option>
+    </select><br/>
+    <label>Имя пользователя: </label><input type="text" th:field="*{firstName}" /><br/>
+    <label>Фамилия пользователя: </label><input type="text" th:field="*{lastName}" /><br/>
+    <label>E-mail пользователя: </label><input type="text" th:field="*{email}" /><br/>
+    <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

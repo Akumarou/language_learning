@@ -1,9 +1,12 @@
 package com.lang_learn_sys.main_app.security.service;
 
+import com.lang_learn_sys.main_app.customer.entity.Customer;
+import com.lang_learn_sys.main_app.customer.service.CustomerService;
 import com.lang_learn_sys.main_app.security.entity.Role;
 import com.lang_learn_sys.main_app.security.entity.User;
 import com.lang_learn_sys.main_app.security.repo.RoleRepository;
 import com.lang_learn_sys.main_app.security.repo.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,24 +15,23 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
     @PersistenceContext
     private EntityManager em;
 
-    final UserRepository userRepository;
-    final RoleRepository roleRepository;
-    final BCryptPasswordEncoder theBCryptPasswordEncoder;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
+    @Autowired
+    CustomerService theCustomerService;
+    @Autowired
+    BCryptPasswordEncoder theBCryptPasswordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.theBCryptPasswordEncoder = new BCryptPasswordEncoder();
-    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -61,6 +63,10 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         user.setPassword(theBCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        Customer tempCust = new Customer();
+        tempCust.setUser_id(user.getId());
+        tempCust.setFirstName(user.getUsername());
+        theCustomerService.addOrUpdateCustomer(tempCust,this);
         return true;
     }
 

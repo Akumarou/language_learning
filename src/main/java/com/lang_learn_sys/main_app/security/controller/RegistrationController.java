@@ -1,8 +1,9 @@
-package com.lang_learn_sys.main_app.controllers;
+package com.lang_learn_sys.main_app.security.controller;
 
 import com.lang_learn_sys.main_app.security.entity.User;
 import com.lang_learn_sys.main_app.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +22,7 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
-
+        SecurityContextHolder.clearContext();
         return "registration";
     }
 
@@ -39,7 +40,6 @@ public class RegistrationController {
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
             return "registration";
         }
-
         return "redirect:/";
     }
 }

@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<div th:insert="header :: head"></div>
 <div>
     <form th:action="@{/registration}" method="POST"  th:object="${userForm}">
         <h2>Регистрация</h2>

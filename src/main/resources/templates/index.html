@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<div th:insert="header :: head"></div>
 <div>
     <div sec:authorize="!isAuthenticated()">
         <h4><a href="/login">Войти</a></h4>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Пользователь</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Пользователь: <span th:text="${theUser.username}"></span></h1>
+<h3>Id: <span th:text="${theCustomer.id}"></span></h3>
+<h3>Id: <span th:text="${theCustomer.user_id}"></span></h3>
+<h3>Имя: <span th:text="${theCustomer.firstName}"></span></h3>
+<h3>Фамилия: <span th:text="${theCustomer.lastName}"></span></h3>
+<h3>E-mail: <span th:text="${theCustomer.email}"></span></h3>
+<br/>
+<form th:action="@{/admin/customers}" method="get">
+    <input type="hidden" name="id" th:value="${theCustomer.user_id}"/>
+    <input type="hidden" name="action" value="update"/>
+    <button type="submit">Изменить</button>
+</form>
+
+<br/>
+<form th:action="@{/admin/customers}" method="get">
+    <input type="hidden" name="id" th:value="${theCustomer.user_id}"/>
+    <input type="hidden" name="action" value="delete"/>
+    <button type="submit">Удалить</button>
+</form>
+</body>
+</html>

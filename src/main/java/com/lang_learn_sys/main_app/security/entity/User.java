@@ -1,5 +1,4 @@
 package com.lang_learn_sys.main_app.security.entity;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,10 +21,8 @@ public class User implements UserDetails {
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
     public User() {
     }
-
     public Long getId() {
         return id;
     }
