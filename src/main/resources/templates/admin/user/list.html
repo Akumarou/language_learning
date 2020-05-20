@@ -22,8 +22,13 @@
         <td>
             <div th:each="role:${user.roles}">
                 <p th:text="${role.name}"></p>
-                <p th:text="${role.id}"></p>
             </div>
+        </td>
+        <td>
+            <form th:action="@{/admin/user/roles}" method="get">
+                <input type="hidden" name="userId" th:value="${user.id}"/>
+                <button type="submit">Изменить роли</button>
+            </form>
         </td>
         <td>
             <form th:action="@{/admin/user/list}" method="post">

@@ -89,4 +89,17 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder resroles = new StringBuilder();
+        for (Role role: roles) resroles.append(role);
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", roles=" + resroles.toString() +
+                '}';
+    }
 }

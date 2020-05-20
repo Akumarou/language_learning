@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Изменение ролей</title>
+</head>
+
+<body>
+<div th:insert="header :: head"></div>
+<h1>Роли для пользователя : <span th:text="${theUser.username}"></span></h1>
+<form th:action="@{/admin/user/roles}" method="post">
+    <input type="hidden" name="userId" th:value="${theUser.id}"/>
+    <div th:each="rol:${includedRoles}">
+        <label th:text="${rol.name}"></label><input type="checkbox" name="selectedRoles" th:value="${rol.name}" checked><br>
+    </div>
+    <div th:each="rol:${execludedRoles}">
+        <label th:text="${rol.name}"></label><input type="checkbox" name="selectedRoles" th:value="${rol.name}"><br>
+    </div>
+    <button type="submit">Отправить!</button>
+</form>
+</body>
+</html>

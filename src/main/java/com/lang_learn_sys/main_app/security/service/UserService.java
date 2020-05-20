@@ -56,6 +56,16 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public boolean updateUser(User user) {
+        userRepository.save(user);
+        return true;
+    }
+    public boolean updateUserRoles(Long id, List<Role> newRoles) {
+        User user = userRepository.getById(id);
+        user.setRoles(new HashSet<>(newRoles));
+        userRepository.save(user);
+        return true;
+    }
     public boolean saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
@@ -87,4 +97,13 @@ public class UserService implements UserDetailsService {
         return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
                 .setParameter("paramId", idMin).getResultList();
     }
+
+
+
+//    User tempUser = theUserService.findUserById(13L);
+//    Set<Role> roleset = new HashSet<>();
+//        roleset.add(roleService.getRoleById(2L));
+//        tempUser.setRoles(roleset);
+//        theUserService.updateUser(tempUser);
+
 }
