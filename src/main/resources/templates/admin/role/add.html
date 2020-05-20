@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Добавление роли</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Добавление новой роли: </h1>
+<form th:action="@{/admin/role/list/add}" method="post" >
+    <label>Наименование:</label>
+    <label>ROLE_</label><input type="text" name="name"/>
+    <button type="submit">Добавить</button>
+</form>
+</body>
+</html>

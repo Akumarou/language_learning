@@ -2,6 +2,7 @@ package com.lang_learn_sys.main_app.security.service;
 
 import com.lang_learn_sys.main_app.customer.entity.Customer;
 import com.lang_learn_sys.main_app.customer.service.CustomerService;
+import com.lang_learn_sys.main_app.employee.service.EmployeeService;
 import com.lang_learn_sys.main_app.security.entity.Role;
 import com.lang_learn_sys.main_app.security.entity.User;
 import com.lang_learn_sys.main_app.security.repo.RoleRepository;
@@ -28,6 +29,8 @@ public class UserService implements UserDetailsService {
     RoleRepository roleRepository;
     @Autowired
     CustomerService theCustomerService;
+    @Autowired
+    EmployeeService theEmployeeService;
     @Autowired
     BCryptPasswordEncoder theBCryptPasswordEncoder;
 
@@ -73,6 +76,8 @@ public class UserService implements UserDetailsService {
     public boolean deleteUser(Long userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
+            theCustomerService.deleteCustomerById(userId);
+            theEmployeeService.deleteEmployeeById(userId);
             return true;
         }
         return false;

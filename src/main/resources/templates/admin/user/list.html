@@ -22,6 +22,7 @@
         <td>
             <div th:each="role:${user.roles}">
                 <p th:text="${role.name}"></p>
+                <p th:text="${role.id}"></p>
             </div>
         </td>
         <td>

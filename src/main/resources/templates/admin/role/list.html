@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Список ролей для предоставления прав доступа</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+
+<h1>Список ролей для предоставления прав доступа</h1>
+<form th:action="@{/admin/role/list}" method="get">
+    <input type="hidden" name="action" value="add"/>
+    <button type="submit">Добавить новую роль</button>
+</form>
+<h3>Роли:</h3>
+<div th:each="role:${allRoles}">
+    <form th:action="@{/admin/role/list}" method="post">
+        <input type="hidden" name="id" th:value="${role.id}"/>
+        <input type="text" name="name" th:value="${role.name}"/><br/>
+        <button type="submit">Изменить</button>
+    </form>
+    <form th:action="@{/admin/role/list}" method="get">
+        <input type="hidden" name="id" th:value="${role.id}"/>
+        <input type="hidden" name="action" value="delete"/>
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+</body>
+</html>

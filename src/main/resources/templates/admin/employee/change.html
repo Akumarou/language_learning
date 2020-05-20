@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма сотрудника</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form action="#" th:action="@{/admin/employee/list}" th:object="${theEmployee}" method="post">
+    <h1>Добавление/изменение сотрудника</h1>
+    <input type="hidden" th:field="*{id}" /><br/>
+    <label>Ник сотрудника: </label><select th:field="*{user_id}">
+        <option th:each="user : ${allUsers}"
+                th:value="${user.id}"
+                th:text="${user.username}">
+        </option>
+    </select><br/>
+    <label>Имя сотрудника: </label><input type="text" th:field="*{firstName}" /><br/>
+    <label>Фамилия сотрудника: </label><input type="text" th:field="*{lastName}" /><br/>
+    <label>E-mail сотрудника: </label><input type="text" th:field="*{email}" /><br/>
+    <label>Паспортные данные: </label><input type="text" th:field="*{passport}" /><br/>
+    <label>Должность сотрудника: </label><input type="text" th:field="*{position}" /><br/>
+    <label>Телефон сотрудника: </label><input type="text" th:field="*{phone}" /><br/>
+    <label>Дата рождения сотрудника: </label><input type="date" th:field="*{birthday}" /><br/>
+    <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

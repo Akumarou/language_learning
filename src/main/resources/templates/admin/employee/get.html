@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Пользователь</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Сотрудник: <span th:text="${theUser.username}"></span></h1>
+<h3>Id: <span th:text="${theEmployee.user_id}"></span></h3>
+<h3>Имя: <span th:text="${theEmployee.firstName}"></span></h3>
+<h3>Фамилия: <span th:text="${theEmployee.lastName}"></span></h3>
+<h3>E-mail: <span th:text="${theEmployee.email}"></span></h3>
+<h3>Паспортные данные: <span th:text="${theEmployee.passport}"></span></h3>
+<h3>Должность сотрудника: <span th:text="${theEmployee.position}"></span></h3>
+<h3>Телефон сотрудника: <span th:text="${theEmployee.phone}"></span></h3>
+<h3>Дата рождения сотрудника: <span th:text="${theEmployee.birthday}"></span></h3>
+<br/>
+<form th:action="@{/admin/employee/list}" method="get">
+    <input type="hidden" name="id" th:value="${theEmployee.user_id}"/>
+    <input type="hidden" name="action" value="update"/>
+    <button type="submit">Изменить</button>
+</form>
+
+<br/>
+<form th:action="@{/admin/employee/list}" method="get">
+    <input type="hidden" name="id" th:value="${theEmployee.user_id}"/>
+    <input type="hidden" name="action" value="delete"/>
+    <button type="submit">Удалить</button>
+</form>
+</body>
+</html>
