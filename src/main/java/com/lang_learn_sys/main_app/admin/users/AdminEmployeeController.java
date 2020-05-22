@@ -1,4 +1,4 @@
-package com.lang_learn_sys.main_app.admin;
+package com.lang_learn_sys.main_app.admin.users;
 
 import com.lang_learn_sys.main_app.employee.entity.Employee;
 import com.lang_learn_sys.main_app.employee.service.EmployeeService;

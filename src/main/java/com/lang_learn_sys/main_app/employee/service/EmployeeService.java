@@ -1,5 +1,6 @@
 package com.lang_learn_sys.main_app.employee.service;
 
+import com.lang_learn_sys.main_app.customer.service.CustomerService;
 import com.lang_learn_sys.main_app.employee.entity.Employee;
 import com.lang_learn_sys.main_app.employee.repo.EmployeeRepository;
 import com.lang_learn_sys.main_app.security.service.UserService;
@@ -13,6 +14,8 @@ import java.util.List;
 public class EmployeeService {
     @Autowired
     EmployeeRepository theEmployeeRepository;
+    @Autowired
+    CustomerService theCustomerService;
 
     @Transactional
     public List<Employee> getAllEmployees(){
@@ -36,6 +39,7 @@ public class EmployeeService {
     @Transactional
     public boolean addOrUpdateEmployee(Employee theEmployee, UserService theUserService){
         if(theUserService.findUserById((long)theEmployee.getUser_id())==null) return false;
+        theCustomerService.deleteCustomerById(theEmployee.getUser_id());
         theEmployeeRepository.save(theEmployee);
         return true;
     }

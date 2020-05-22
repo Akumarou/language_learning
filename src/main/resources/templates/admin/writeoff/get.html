@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Накладная на списание</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h3>Id: <span th:text="${theWriteoff.id}"></span></h3>
+<h3>Дата: <span th:value="${theWriteoff.date}"></span></h3>
+<h3>Закрыта:         <span th:switch="${theWriteoff.isClosed()}">
+    <span th:case="${true}">Да</span>
+    <span th:case="*">Нет</span>
+</span></h3>
+<h3>Полная стоимость: <span th:text="${theWriteoff.getTotalCost()}"></span></h3>
+<br/>
+<span>
+    <h3>Сотрудники</h3>
+    <p th:each="empl:${theWriteoff.employees}">
+        <span th:text="${empl.firstName}"></span>
+        <span> </span>
+        <span th:text="${empl.lastName}"></span>
+    </p>
+</span>
+<span>
+    <h3>Список товаров</h3>
+    <p th:each="prod:${theWriteoff.products}">
+        <span th:text="${prod.name}"></span>
+    </p>
+</span>
+</body>
+</html>

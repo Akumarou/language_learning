@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма чека</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Изменение чека</h1>
+<form action="#" th:action="@{/admin/income/change}"method="post">
+    <input type="hidden" name = "id" th:field="${theIncome.id}" />
+    <label>Изменить дату: </label><input type="date" name="date" th:text="${' (Текущая: '+theIncome.date} + ') '" />
+    <button type="submit">Сохранить</button>
+</form>
+<form action="#" th:action="@{/admin/income/change}"method="post">
+    <input type="hidden" name = "id" th:field="${theIncome.id}" /><br/>
+    <label>Закрыть/Открыть накладную: </label>
+    <input type="submit" name="open" value="Открыть"/>
+    <input type="submit" name="close" value="Закрыть"/>
+</form>
+<h3>Клиент: <span th:text="${theIncome.customer.firstName + ' ' + theIncome.customer.lastName}"></span> </h3>
+<form th:action="@{/admin/income/addProp}" method="get">
+    <input type="hidden" name="id" th:value="${theIncome.id}"/>
+    <label>Изменить клиента: </label><select name="custId">
+    <option th:each="cust : ${allCustomers}"
+            th:value="${cust.id}"
+            th:text="${cust.firstName + ' ' + cust.lastName + ' ' + cust.email}">
+    </option>
+    </select><br/>
+    <button type="submit">Сохранить</button>
+</form>
+<h3>Товары</h3>
+<div th:each="prod:${theIncome.products}">
+    <form action="#" th:action="@{/admin/income/change}" method="post">
+        <input type="hidden" name = "prodId" th:value="${prod.id}" />
+        <input type="hidden" name="id" th:field="${theIncome.id}" /><br/>
+        <p th:text="${prod.name}"></p>
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+<form th:action="@{/admin/income/addProp}" method="get">
+    <input type="hidden" name="id" th:value="${theIncome.id}"/>
+    <input type="hidden" name="action" value="addProd"/>
+    <button type="submit">Добавить продукт</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Чек</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h3>Id: <span th:text="${theIncome.id}"></span></h3>
+<h3>Дата: <span th:value="${theIncome.date}"></span></h3>
+<h3>Закрыта:         <span th:switch="${theIncome.isClosed()}">
+    <span th:case="${true}">Да</span>
+    <span th:case="*">Нет</span>
+</span></h3>
+<h3>Полная стоимость: <span th:text="${theIncome.getTotalCost()}"></span></h3>
+<br/>
+<h3>Клиент: <span th:value="${theIncome.customer.firstName + ' ' + theIncome.customer.lastName}"></span></h3>
+<span>
+    <h3>Список товаров</h3>
+    <p th:each="prod:${theIncome.products}">
+        <span th:text="${prod.name}"></span>
+    </p>
+</span>
+</body>
+</html>

@@ -97,13 +97,4 @@ public class UserService implements UserDetailsService {
         return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
                 .setParameter("paramId", idMin).getResultList();
     }
-
-
-
-//    User tempUser = theUserService.findUserById(13L);
-//    Set<Role> roleset = new HashSet<>();
-//        roleset.add(roleService.getRoleById(2L));
-//        tempUser.setRoles(roleset);
-//        theUserService.updateUser(tempUser);
-
 }

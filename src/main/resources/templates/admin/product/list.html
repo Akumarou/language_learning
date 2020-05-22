@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Список продуктов</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form>
+    <form th:action="@{/admin/product/list}" method="get">
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый продукт</button>
+    </form>
+</form>
+<div th:if="${hasErrors}">
+    <h1 th:text="${error}"></h1>
+</div>
+<table>
+    <thead>
+        <th>Id</th>
+        <th>Наименование</th>
+        <th>Описание</th>
+        <th>Цена</th>
+        <th>Скидка</th>
+        <th>Изменить</th>
+        <th>Удалить</th>
+    </thead>
+    <tr th:each="product:${allProducts}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.descr}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="*{product.sale}"></td>
+        <td>
+            <form th:action="@{/admin/product/list}" method="get">
+                <input type="hidden" name="id" th:value="${product.id}"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/product/list}" method="get">
+                <input type="hidden" name="id" th:value="${product.id}"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

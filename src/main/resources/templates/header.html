@@ -6,11 +6,20 @@
     <a th:href="@{/registration}">Регистрация </a>
     <a th:href="@{/news}">Новости </a>
     <br/>
-    <a th:href="@{/admin}">Админ панель </a>
+    Администрация
     <a th:href="@{/admin/user/list}">Пользователи </a>
     <a th:href="@{/admin/role/list}">Роли </a>
     <a th:href="@{/admin/customer/list}">Клиенты </a>
     <a th:href="@{/admin/employee/list}">Сотрудники </a>
+    <br/>
+    ↵Дополнительно:
+    <a th:href="@{/admin/provider/list}">Поставщики </a>
+    <a th:href="@{/admin/product/list}">Продукты </a>
+    <br/>
+    ↵Накладные:
+    <a th:href="@{/admin/writeoff/list}">Списание </a>
+    <a th:href="@{/admin/income/list}">Приход </a>
+    <a th:href="@{/admin/consumption/list}">Закупка </a>
 </div>
 </body>
 </html>

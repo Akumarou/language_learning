@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма накладной</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form action="#" th:action="@{/admin/writeoff/addProp}" method="post">
+    <input type="hidden" name="id" th:value="${id}"/>
+    <input type="hidden" name="action" th:value="${action}"/>
+    <span th:switch="${actionBool}">
+        <span th:case="${true}">
+            <label>Сотрудник: </label><select name="item_id">
+                <option th:each="empl : ${allEmployees}"
+                        th:value="${empl.user_id}"
+                        th:text="${empl.firstName + ' ' + empl.lastName}">
+                </option>
+            </select><br/>
+        </span>
+        <span th:case="*">
+            <label>Продукт/Услуга: </label><select name="item_id">
+                <option th:each="prod : ${allProducts}"
+                        th:value="${prod.id}"
+                        th:text="${prod.name}">
+                </option>
+            </select><br/>
+        </span>
+    </span>
+    <button type="submit">Добавить</button>
+</form>
+</body>
+</html>

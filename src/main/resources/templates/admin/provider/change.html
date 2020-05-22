@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма поставщика</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form action="#" th:action="@{/admin/provider/list}" th:object="${theProvider}" method="post">
+    <h1>Добавление/изменение поставщика</h1>
+    <input type="hidden" th:field="*{id}" /><br/>
+    <label>Наименование: </label><input type="text" th:field="*{name}" /><br/>
+    <label>Телефон: </label><input type="text" th:field="*{phone}" /><br/>
+    <label>Адрес: </label><input type="text" th:field="*{address}" /><br/>
+    <label>ИНН: </label><input type="text" th:field="*{inn}" /><br/>
+    <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

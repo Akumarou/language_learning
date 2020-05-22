@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Продукт</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h3>Id: <span th:text="${theProduct.id}"></span></h3>
+<h3>Наименование: <span th:text="${theProduct.name}"></span></h3>
+<h3>Описание: <span th:text="${theProduct.descr}"></span></h3>
+<h3>Цена: <span th:text="${theProduct.price}"></span></h3>
+<h3>Скидка: <span th:text="${theProduct.sale}"></span></h3>
+<br/>
+<form th:action="@{/admin/product/list}" method="get">
+    <input type="hidden" name="id" th:value="${theProduct.id}"/>
+    <input type="hidden" name="action" value="update"/>
+    <button type="submit">Изменить</button>
+</form>
+
+<br/>
+<form th:action="@{/admin/product/list}" method="get">
+    <input type="hidden" name="id" th:value="${theProduct.id}"/>
+    <input type="hidden" name="action" value="delete"/>
+    <button type="submit">Удалить</button>
+</form>
+</body>
+</html>
