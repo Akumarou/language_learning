@@ -24,7 +24,6 @@
         <th>E-mail</th>
     </thead>
     <tr th:each="customer:${allCustomers}">
-<!--        <td th:text="${customer.id}"></td>-->
         <td th:text="${customer.user_id}"></td>
         <td th:text="${customer.firstName}"></td>
         <td th:text="${customer.lastName}"></td>

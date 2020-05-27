@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Изменение курса</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Добавление/изменение курса: </h1>
+<form th:action="@{/admin/course/change}" th:object="${theCourse}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <label>Название курса: </label><input type="text" th:field="*{name}"/>
+    <label>Стоимость курса: </label><input type="text" th:field="*{cost}"/>
+    <label>Дополнительная курса: </label><textarea type="text" th:field="*{info}"></textarea>
+    <label>Ведущий преподаватель: </label>
+    <select th:field="*{mainTeacher}">
+        <option th:each="empl : ${allEmployees}"
+                th:value="${empl.id}"
+                th:text="${empl.firstName + ' ' + empl.lastName}">
+        </option>
+    </select><br/>
+    <button type="submit">Сохранить</button>
+</form>
+<div th:if="${theCourse.id != null}">
+    <form th:action="@{/admin/course/changeTopic}" method="get">
+        <input type="hidden" name="id" th:value="${theCourse.id}"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новую тему</button>
+    </form>
+    <div th:each="topic:${theCourse.getTopics()}">
+        <label>Тема: </label>
+        <div th:text="${topic.name}"></div>
+        <label>Учитель: </label>
+        <div th:text="${topic.teacher.firstName + ' ' + topic.teacher.lastName}"></div>
+        <form th:action="@{/admin/course/changeTopic}" method="get">
+            <input type="text" name="id" th:value="${topic.id}"/>
+            <input type="text" name="action" value="update"/>
+            <button type="submit">Изменить</button>
+        </form>
+        <form th:action="@{/admin/course/changeTopic}" method="get">
+            <input type="text" name="id" th:value="${topic.id}"/>
+            <input type="text" name="action" value="delete"/>
+            <button type="submit">Удалить</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

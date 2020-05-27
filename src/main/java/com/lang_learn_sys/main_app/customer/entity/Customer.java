@@ -1,6 +1,9 @@
 package com.lang_learn_sys.main_app.customer.entity;
 
+import com.lang_learn_sys.main_app.course.entity.Course;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="customer")
@@ -12,7 +15,16 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
+    @ManyToMany
+    private Set<Course> boughtCourses;
 
+    public Set<Course> getBoughtCourses() {
+        return boughtCourses;
+    }
+
+    public void setBoughtCourses(Set<Course> boughtCourses) {
+        this.boughtCourses = boughtCourses;
+    }
 
     public Long getUser_id() {
         return user_id;

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Список курсов</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form th:action="@{/admin/course/list}" method="get">
+    <input type="hidden" name="action" value="update"/>
+    <button type="submit">Добавить новый курс</button>
+</form>
+<div th:if="${hasErrors}">
+    <h1 th:text="${error}"></h1>
+</div>
+<table>
+    <thead>
+    <th>Id</th>
+    <th>Название</th>
+    <th>Стоимость</th>
+    <th>Дополнительно</th>
+    <th>Учитель</th>
+    <th>Количество курсов</th>
+    <th>Изменить</th>
+    <th>Удалить</th>
+    </thead>
+    <tr th:each="course:${allCourses}">
+        <td th:text="${course.id}"></td>
+        <td th:text="${course.name}"></td>
+        <td th:text="${course.getCost()}"></td>
+        <td th:text="${course.info}"></td>
+        <td th:text="${course.mainTeacher.firstName + ' '+ course.mainTeacher.lastName}"></td>
+        <td th:text="${course.getCountOfCourses()}"></td>
+        <td>
+            <form th:action="@{/admin/course/list}" method="get">
+                <input type="hidden" name="id" th:value="${course.id}"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/course/list}" method="get">
+                <input type="hidden" name="id" th:value="${course.id}"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

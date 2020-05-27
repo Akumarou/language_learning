@@ -6,6 +6,7 @@ import com.lang_learn_sys.main_app.customer.entity.Customer;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +30,13 @@ public class Consumption {
         this.products = new HashSet<>();
         this.provider = new Provider();
         this.closed = false;
+    }
+    public Double getTotalCost() {
+        this.totalCost = 0D;
+        for(Product pr: this.products){
+            this.totalCost +=Double.parseDouble(pr.getPrice()) - (Double.parseDouble(pr.getPrice()) * Double.parseDouble(pr.getSale()) / 100);
+        }
+        return this.totalCost;
     }
 
     public void deleteProd(Product prod) {
@@ -77,14 +85,6 @@ public class Consumption {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
-    }
-
-    public Double getTotalCost() {
-        this.totalCost = 0D;
-        for(Product pr: this.products){
-            this.totalCost +=Double.parseDouble(pr.getPrice()) - (Double.parseDouble(pr.getPrice()) * Double.parseDouble(pr.getSale()) / 100);
-        }
-        return this.totalCost;
     }
 
     public void setTotalCost(Double totalCost) {

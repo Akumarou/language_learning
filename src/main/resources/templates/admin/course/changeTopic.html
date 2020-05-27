@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Изменение темы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Добавление/изменение темы: </h1>
+<form th:action="@{/admin/course/changeTopic}" th:object="${theTopic}" method="post">
+    <div th:if="${theCourseId == 0}">
+        <input type="hidden" th:field="*{id}"/>
+    </div>
+    <div th:if="${theCourseId != 0}">
+        <input type="text" name="tempCourseId" th:value="${theCourseId}"/>
+    </div>
+    <label>Название темы: </label><input type="text" th:field="*{name}"/>
+    <label>Учитель: </label>
+    <select th:field="*{teacher}">
+        <div th:if="${theCourseId == 0}">
+            <div th:each="empl : ${allEmployees}">
+                <div th:if="${theTopic.teacher.id == empl.id}">
+                    <option th:value="${empl.id}" th:text="${empl.firstName + ' ' + empl.lastName}" selected>
+                    </option>
+                </div>
+                <div th:if="${theTopic.teacher.id != empl.id}">
+                    <option th:value="${empl.id}" th:text="${empl.firstName + ' ' + empl.lastName}">
+                    </option>
+                </div>
+            </div>
+        </div>
+        <div th:if="${theCourseId != 0}">
+            <div th:each="empl : ${allEmployees}">
+                <option th:value="${empl.id}" th:text="${empl.firstName + ' ' + empl.lastName}">
+                </option>
+            </div>
+        </div>
+    </select><br/>
+    <label>Содержание: </label><textarea type="text" th:field="*{contents}"></textarea>
+    <button type="submit">Сохранить</button>
+</form>
+<hr/><hr/>
+<!--дальше вопросы, только при редактировании,а не добавлении-->
+<div th:if="${theCourseId == 0}">
+<!--    тут клавиши добавить-->
+    <form th:action="@{/admin/course/changeQuestion}" method="get">
+        <input type="hidden" name="id" th:value="${theTopic.id}"/>
+        <input type="hidden" name="questionType" value="input"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый вопрос со вводом ответа</button>
+    </form>
+    <form th:action="@{/admin/course/changeQuestion}" method="get">
+        <input type="hidden" name="id" th:value="${theTopic.id}"/>
+        <input type="hidden" name="questionType" value="single"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый вопрос с единственным выбором</button>
+    </form>
+    <form th:action="@{/admin/course/changeQuestion}" method="get">
+        <input type="hidden" name="id" th:value="${theTopic.id}"/>
+        <input type="hidden" name="questionType" value="multiple"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый вопрос со множественным выбором</button>
+    </form>
+    <hr/>
+    <!--тут показываются вопросы-->
+    <!--тут вводные вопросы-->
+    <div th:if="${theTopic.inputQ!=null}">
+        <div th:each="question:${theTopic.inputQ}">
+            <label>Вопрос: </label>
+            <div th:text="${question.question}"></div>
+            <label>Метод ответа: </label>
+            <div>Ввод</div>
+            <form th:action="@{/admin/course/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="input"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+            <form th:action="@{/admin/course/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="input"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <!--тут с единственным выбором вопросы-->
+    <div th:if="${theTopic.singleQ!=null}">
+        <div th:each="question:${theTopic.singleQ}">
+            <label>Вопрос: </label>
+            <div th:text="${question.question}"></div>
+            <label>Метод ответа: </label>
+            <div>выбор единственного значения</div>
+            <form th:action="@{/admin/course/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="single"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+            <form th:action="@{/admin/course/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="single"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <!--тут со множественным выбором вопросы-->
+    <div th:if="${theTopic.multipleQ!=null}">
+        <div th:each="question:${theTopic.multipleQ}">
+            <label>Вопрос: </label>
+            <div th:text="${question.question}"></div>
+            <label>Метод ответа: </label>
+            <div>множественный выбор</div>
+            <form th:action="@{/admin/course/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="multiple"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+            <form th:action="@{/admin/course/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="multiple"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+</div>
+</body>
+</html>

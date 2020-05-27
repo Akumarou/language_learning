@@ -18,6 +18,10 @@ public class RoleService {
     public List<Role> getAllRoles(){
         return theRoleRepository.findAll();
     }
+    @Transactional
+    public Role getRoleByName(String name){
+        return theRoleRepository.getFirstByName(name);
+    }
 
     @Transactional
     public List<Role> getAllByNames(String[] names){
