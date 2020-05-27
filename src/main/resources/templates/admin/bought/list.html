@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Админ-панель</title>
+</head>
+
+<body>
+<div th:insert="header :: head"></div>
+
+<table>
+    <thead>
+    <th>ID</th>
+    <th>UserName</th>
+    <th>Купленные курсы</th>
+    <th>Изменить</th>
+    </thead>
+    <tr th:each="cust:${allCustomers}">
+        <td th:text="${cust.user_id}"></td>
+        <td th:text="${cust.firstName + ' ' + cust.lastName}"></td>
+        <td>
+            <div th:each="course:${cust.boughtCourses}">
+                <p th:text="${course.name}"></p>
+            </div>
+        </td>
+        <td>
+            <form th:action="@{/admin/bought/change}" method="get">
+                <input type="hidden" name="userId" th:value="${cust.user_id}"/>
+                <button type="submit">Изменить купленные курсы</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

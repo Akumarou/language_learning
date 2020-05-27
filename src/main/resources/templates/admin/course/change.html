@@ -34,13 +34,13 @@
         <label>Учитель: </label>
         <div th:text="${topic.teacher.firstName + ' ' + topic.teacher.lastName}"></div>
         <form th:action="@{/admin/course/changeTopic}" method="get">
-            <input type="text" name="id" th:value="${topic.id}"/>
-            <input type="text" name="action" value="update"/>
+            <input type="hidden" name="id" th:value="${topic.id}"/>
+            <input type="hidden" name="action" value="update"/>
             <button type="submit">Изменить</button>
         </form>
         <form th:action="@{/admin/course/changeTopic}" method="get">
-            <input type="text" name="id" th:value="${topic.id}"/>
-            <input type="text" name="action" value="delete"/>
+            <input type="hidden" name="id" th:value="${topic.id}"/>
+            <input type="hidden" name="action" value="delete"/>
             <button type="submit">Удалить</button>
         </form>
     </div>
