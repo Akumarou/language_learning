@@ -28,6 +28,13 @@ public class CourseTopic {
 
     public CourseTopic() {
     }
+    public String getContents() {
+        return contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
 
     public Long getId() {
         return id;
@@ -43,14 +50,6 @@ public class CourseTopic {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
     }
 
     public Employee getTeacher() {
