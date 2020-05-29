@@ -28,7 +28,7 @@
         <input type="hidden" name="action" value="add"/>
         <button type="submit">Добавить новую тему</button>
     </form>
-    <div th:each="topic:${theCourse.getTopics()}">
+    <div th:each="topic:${allTopics}">
         <label>Тема: </label>
         <div th:text="${topic.name}"></div>
         <label>Учитель: </label>

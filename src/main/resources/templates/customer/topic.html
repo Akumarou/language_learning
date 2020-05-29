@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <title th:text="${theTopic.name}"></title>
+    </head>
+<body>
+<div th:insert="header :: head"></div>
+<div>
+    <h1 th:text="${theTopic.name}"></h1>
+    <div>
+        <div id="content" th:text="${theTopic.contents}"></div>
+        <script th:inline="javascript" type="text/javascript">
+            let div = document.getElementById('content');
+            let inn=div.innerText;
+            div.innerText = "";
+            div.innerHTML = inn;
+        </script>
+        <br/>
+        <form th:action="@{/customer/test}" method="get">
+            <input type="hidden" name="course_id" th:value="${course_id}"/>
+            <input type="hidden" name="topic_id" th:value="${theTopic.id}"/>
+            <button type="submit">Пройти тест</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <title>Тест</title>
+    </head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Тест!</h1>
+<form action="#" th:action="@{/customer/test}" th:object="${theTest}" method="post">
+    <input type="hidden" th:field="*{topic_id}" />
+    <input type="hidden" th:field="*{course_id}" />
+    <input type="hidden" th:field="*{user_id}" />
+    <div th:if="${theTest.qSingle!=null}">
+        <div th:each="question:${theTest.qSingle}">
+            <p>Вопрос: </p><p th:text="${question.question}"></p>
+            <input type="hidden" name="singleQuestionIds[]" th:value="${question.id}"/>
+            <p>Варианты ответа: </p>
+            <div th:each="answer:${question.answers}">
+                <input type="radio" th:name="${'singleAnswerIds'+question.order}" th:value="${answer.id}" />
+                <span th:text="${answer.content}"></span>
+            </div>
+            <hr/>
+        </div>
+    </div>
+    <hr/>
+    <div th:if="${theTest.qMultiple!=null}">
+        <div th:each="question:${theTest.qMultiple}">
+            <p>Вопрос: </p><p th:text="${question.question}"></p>
+            <input type="hidden" name="multipleQuestionIds[]" th:value="${question.id}"/>
+            <p>Варианты ответа: </p>
+            <div th:each="answer:${question.answers}">
+                <input type="checkbox" th:name="${'multipleAnswerIds'+question.order+'[]'}" th:value="${answer.id}" /><span th:text="${answer.content}"></span>
+            </div>
+            <hr/>
+        </div>
+    </div>
+    <hr/>
+    <div th:if="${theTest.qInput!=null}">
+        <div th:each="question:${theTest.qInput}">
+            <p>Вопрос: </p><p th:text="${question.question}"></p>
+            <input type="hidden" name="inputQuestionIds[]" th:value="${question.id}"/>
+            <p>Ответ: </p><input type="text" name="inputAnswer[]" />
+        </div>
+        <hr/>
+    </div>
+    <hr/>
+    <input type="submit" value="Завершить тест"/>
+</form>
+</body>
+</html>

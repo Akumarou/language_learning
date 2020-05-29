@@ -105,7 +105,7 @@ public class AdminQuestionController {
             if (idI.equals("_")) {
                 CourseTopic topicById = theCourseService.getTopicById(Long.parseLong(theTopicId));
                 topicById.addInputQ(tempI);
-                theCourseService.addOrUpdateTopic(topicById);
+                theCourseService.justSave(topicById);
             }
         }
         return "redirect:/admin/course/all";
@@ -188,7 +188,7 @@ public class AdminQuestionController {
         if (!theTopicId.equals("_")) {
             CourseTopic topicById = theCourseService.getTopicById(Long.parseLong(theTopicId));
             topicById.addSingleQ(cqtemp);
-            theCourseService.addOrUpdateTopic(topicById);
+            theCourseService.justSave(topicById);
         }
 
         return "redirect:/admin/course/all";
@@ -275,7 +275,7 @@ public class AdminQuestionController {
         if (!theTopicId.equals("_")) {
             CourseTopic topicById = theCourseService.getTopicById(Long.parseLong(theTopicId));
             topicById.addMultipleQ(cqtemp);
-            theCourseService.addOrUpdateTopic(topicById);
+            theCourseService.justSave(topicById);
         }
         return "redirect:/admin/course/all";
     }

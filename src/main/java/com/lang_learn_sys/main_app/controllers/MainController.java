@@ -33,20 +33,7 @@ public class MainController implements WebMvcConfigurer {
     }
 
     @GetMapping("/index")
-    public String showIndex(Model model) {
-        String sht = "<div>\n" +
-                "    <div sec:authorize=\"!isAuthenticated()\">\n" +
-                "        <h4><a href=\"/login\">Войти</a></h4>\n" +
-                "        <h4><a href=\"/registration\">Зарегистрироваться</a></h4>\n" +
-                "    </div>\n" +
-                "    <div sec:authorize=\"isAuthenticated()\">\n" +
-                "        <h2 sec:authentication=\"name\"></h2>\n" +
-                "        <h4><a href=\"/logout\">Выйти</a></h4>\n" +
-                "    </div>\n" +
-                "    <h4><a th:href=\"@{/news}\">Новости (только пользователь)</a></h4>\n" +
-                "    <h4><a th:href=\"@{/admin}\">Пользователи (только админ)</a></h4>\n" +
-                "</div>";
-        model.addAttribute("content",sht);
+    public String showIndex() {
         return "index";
     }
     @PostMapping("/index")
@@ -58,7 +45,7 @@ public class MainController implements WebMvcConfigurer {
 
     @RequestMapping("/news")
     public String showNews() {
-        Authentication authentication = new UsernamePasswordAuthenticationToken("user", "12345");
+        Authentication authentication = new UsernamePasswordAuthenticationToken("admin", "12345");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "news";
     }

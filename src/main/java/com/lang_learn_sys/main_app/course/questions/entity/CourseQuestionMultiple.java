@@ -16,14 +16,30 @@ public class CourseQuestionMultiple {
     private Set<Answer> answers;
     @OneToMany
     private Set<Answer> correctAnswers;
+    @Transient
+    private int order;
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
     public CourseQuestionMultiple() {
     }
     public int getCorrectivity(Set<Answer> userAnswers){
-        if (correctAnswers.containsAll(userAnswers))
+        if(userAnswers==null)return 0;
+        if (correctAnswers.equals(userAnswers))
             return 100;
-        else
-            return 0;
+        float cost = (100+0F) / (answers.size()+0F);
+        float result = 0F;
+        for (Answer ans:userAnswers){
+            if(correctAnswers.contains(ans))result+=cost;
+            else result-=cost;
+        }
+        return (result<0F)?0:Math.round(result);
     }
 
     public Long getId() {

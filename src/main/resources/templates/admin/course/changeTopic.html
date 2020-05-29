@@ -43,9 +43,27 @@
 
     <script th:inline="javascript" type="text/javascript">
         // Вывод кнопок редактирования
-        document.write("<input type='button' value='B' onclick='setBold()' />");
-        document.write("<input type='button' value='I' onclick='setItal()' />");
-        document.write("<input type='button' value='U' onclick='setUnder()' />");
+        document.write("<input type='button' value='Ж' onclick='execu(\"bold\",\"\")' />");
+        document.write("<input type='button' value='К' onclick='execu(\"italic\",\"\")' />");
+        document.write("<input type='button' value='П' onclick='execu(\"underline\",\"\")' />");
+        document.write("<br />");
+        document.write("<input type='button' value='Заголовок' onclick='execu(\"fontSize\",\"5\")' />");
+        document.write("<input type='button' value='Подзаголовок' onclick='execu(\"fontSize\",\"4\")' />");
+        document.write("<input type='button' value='Список' onclick='execu(\"insertunorderedlist\",\"\")' />");
+        document.write("<input type='button' value='Очистить' onclick='execu(\"removeFormat\",\"\")' />");
+        document.write("<br />");
+        document.write("<input type='button' value='Cut' onclick='execu(\"cut\",\"\")' />");
+        document.write("<input type='button' value='Copy' onclick='execu(\"copy\",\"\")' />");
+        document.write("<input type='button' value='Paste' onclick='execu(\"paste\",\"\")' />");
+        document.write("<br  />");
+        document.write("<input type='button' value='Undo' onclick='execu(\"undo\",\"\")' />");
+        document.write("<input type='button' value='Redo' onclick='execu(\"redo\",\"\")' />");
+        document.write("<br />");
+        document.write("<label>Выравание: </label>");
+        document.write("<input type='button' value='слева' onclick='execu(\"justifyLeft\",\"\")' />");
+        document.write("<input type='button' value='справа' onclick='execu(\"justifyRight\",\"\")' />");
+        document.write("<input type='button' value='по центру' onclick='execu(\"justifyCenter\",\"\")' />");
+        document.write("<input type='button' value='по всей ширине' onclick='execu(\"justifyFull\",\"\")' />");
         document.write("<br />");
         document.write("<iframe scrolling='yes' frameborder='no' src='#' id='frameId' name='frameId'></iframe>"); // Добавляем iframe
         /* В зависимости от браузера получаем доступ к созданному фрейму */
@@ -62,19 +80,9 @@
         iDoc.designMode = "on"; // Включаем режим редактирования фрейма
         /* Функции для задания внешнего вида выделенного текста
         Полный набор возможных команд: http://javascript.itsoft.ru/execcom/execCommands.html */
-        function setBold() {
+        function execu(param,additional) {
             iWin.focus();
-            iWin.document.execCommand("bold", null, "");
-        }
-
-        function setItal() {
-            iWin.focus();
-            iWin.document.execCommand("italic", null, "");
-        }
-
-        function setUnder() {
-            iWin.focus();
-            iWin.document.execCommand("underline", null, "");
+            iWin.document.execCommand(param, true, additional);
         }
 
         function save() {

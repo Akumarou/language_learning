@@ -52,7 +52,6 @@ public class EmployeeService {
     @Transactional
     public boolean addOrUpdateEmployee(Employee theEmployee, UserService theUserService){
         if(theUserService.findUserById((long)theEmployee.getUser_id())==null) return false;
-        theCustomerService.deleteCustomerById(theEmployee.getUser_id());
         theEmployeeRepository.save(theEmployee);
         return true;
     }

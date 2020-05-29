@@ -14,7 +14,8 @@ public class CourseQuestionInput {
     private String correctAnswer;
 
     public int getCorrectivity(String userAnswer){
-        if (userAnswer.equals(correctAnswer)) return 100;
+        if (userAnswer.equals(""))return 0;
+        else if (userAnswer.equals(correctAnswer)) return 100;
         else if (correctAnswer.contains(userAnswer)) return 50;
         else return 0;
     }

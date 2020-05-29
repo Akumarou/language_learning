@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <title>Все темы</title>
+    </head>
+<body>
+<div th:insert="header :: head"></div>
+<div>
+    <h1>Все темы!</h1>
+    <div th:each="topic:${allTopics}">
+        <p>Тема: </p><p th:text="${topic.name}"></p>
+        <p>Преподаватель: </p><p th:text="${topic.teacher.firstName + ' ' + topic.teacher.lastName}"></p>
+        <form th:action="@{/customer/topic}" method="get">
+            <input type="hidden" name="course_id" th:value="${course_id}"/>
+            <input type="hidden" name="topic_id" th:value="${topic.id}"/>
+            <button type="submit">Выбрать</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

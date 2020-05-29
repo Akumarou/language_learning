@@ -1,29 +1,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <body>
 <div id="header" th:fragment="head">
-    <a th:href="@{/index}">Главная </a>
-    <a th:href="@{/login}">Логин </a>
-    <a th:href="@{/registration}">Регистрация </a>
-    <a th:href="@{/news}">Новости </a>
+    <div>
+        Для всех
+        <a th:href="@{/index}">Главная </a>
+        <a th:href="@{/login}">Логин </a>
+        <a th:href="@{/registration}">Регистрация </a>
+        <a th:href="@{/logout}">Выйти </a>
+        <a th:href="@{/news}">Новости </a>
+    </div>
     <br/>
-    Администрация
-    <a th:href="@{/admin/user/list}">Пользователи </a>
-    <a th:href="@{/admin/role/list}">Роли </a>
-    <a th:href="@{/admin/customer/list}">Клиенты </a>
-    <a th:href="@{/admin/employee/list}">Сотрудники </a>
+    <div>
+        Пользователь
+        <a th:href="@{/customer/listCourses}">Все курсы </a>
+    </div>
     <br/>
-    ↵Дополнительно:
-    <a th:href="@{/admin/provider/list}">Поставщики </a>
-    <a th:href="@{/admin/product/list}">Продукты </a>
-    <br/>
-    ↵Накладные:
-    <a th:href="@{/admin/writeoff/list}">Списание </a>
-    <a th:href="@{/admin/income/list}">Приход </a>
-    <a th:href="@{/admin/consumption/list}">Закупка </a>
-    <br/>
-    ↵Курсы:
-    <a th:href="@{/admin/course/list}">Курсы </a>
-    <a th:href="@{/admin/bought/list}">Подписки </a>
+    <div>
+        Администрация
+        <a th:href="@{/admin/user/list}">Пользователи </a>
+        <a th:href="@{/admin/role/list}">Роли </a>
+        <a th:href="@{/admin/customer/list}">Клиенты </a>
+        <a th:href="@{/admin/employee/list}">Сотрудники </a>
+        <br/>
+        ↵Дополнительно:
+        <a th:href="@{/admin/provider/list}">Поставщики </a>
+        <a th:href="@{/admin/product/list}">Продукты </a>
+        <br/>
+        ↵Накладные:
+        <a th:href="@{/admin/writeoff/list}">Списание </a>
+        <a th:href="@{/admin/income/list}">Приход </a>
+        <a th:href="@{/admin/consumption/list}">Закупка </a>
+        <br/>
+        ↵Курсы:
+        <a th:href="@{/admin/course/list}">Курсы </a>
+        <a th:href="@{/admin/bought/list}">Подписки </a>
+    </div>
 </div>
 </body>
 </html>

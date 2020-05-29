@@ -102,50 +102,63 @@ public class CourseService {
 
     @Transactional
     public List<CourseQuestionInput> userGetInputQuestions(Long courseTopicId, Long count) {
-        List<CourseQuestionInput> inputQ = new ArrayList<>(theCourseTopicRepository.getById(courseTopicId).getInputQ());
-        if (!inputQ.isEmpty() && inputQ.size() >= count) {
-            Random rand = new Random();
-            List<CourseQuestionInput> result = new ArrayList<>();
-            int listId = 0;
-            for (int i = 0; i < count; i++)
-                listId = rand.nextInt(inputQ.size());
-            result.add(inputQ.get(listId));
-            inputQ.remove(listId);
-            return result;
+        if (count <= 0) return null;
+        ArrayList<CourseQuestionInput> courseQuestionInputs = new ArrayList<>(theCourseTopicRepository.getById(courseTopicId).getInputQ());
+        if (courseQuestionInputs==null)return null;
+        ArrayList<CourseQuestionInput> result = new ArrayList<>();
+        Random rand = new Random();
+        CourseQuestionInput randomElement = courseQuestionInputs.get(rand.nextInt(courseQuestionInputs.size()));
+        courseQuestionInputs.remove(randomElement);
+        result.add(randomElement);
+        for (int i = 1; i < count; i++) {
+            if (!courseQuestionInputs.isEmpty()) {
+                randomElement = courseQuestionInputs.get(rand.nextInt(courseQuestionInputs.size()));
+                courseQuestionInputs.remove(randomElement);
+                result.add(randomElement);
+            }
         }
-        return null;
+        return result;
     }
+
 
     @Transactional
     public List<CourseQuestionSingle> userGetSingleQuestions(Long courseTopicId, Long count) {
-        List<CourseQuestionSingle> inputQ = new ArrayList<>(theCourseTopicRepository.getById(courseTopicId).getSingleQ());
-        if (!inputQ.isEmpty() && inputQ.size() >= count) {
-            Random rand = new Random();
-            List<CourseQuestionSingle> result = new ArrayList<>();
-            int listId = 0;
-            for (int i = 0; i < count; i++)
-                listId = rand.nextInt(inputQ.size());
-            result.add(inputQ.get(listId));
-            inputQ.remove(listId);
-            return result;
+        if (count <= 0) return null;
+        ArrayList<CourseQuestionSingle> courseQuestionSingle = new ArrayList<>(theCourseTopicRepository.getById(courseTopicId).getSingleQ());
+        if (courseQuestionSingle==null)return null;
+        ArrayList<CourseQuestionSingle> result = new ArrayList<>();
+        Random rand = new Random();
+        CourseQuestionSingle randomElement = courseQuestionSingle.get(rand.nextInt(courseQuestionSingle.size()));
+        courseQuestionSingle.remove(randomElement);
+        result.add(randomElement);
+        for (int i = 1; i < count; i++) {
+            if (!courseQuestionSingle.isEmpty()) {
+                randomElement = courseQuestionSingle.get(rand.nextInt(courseQuestionSingle.size()));
+                courseQuestionSingle.remove(randomElement);
+                result.add(randomElement);
+            }
         }
-        return null;
+        return result;
     }
 
     @Transactional
     public List<CourseQuestionMultiple> userGetMultipleQuestions(Long courseTopicId, Long count) {
-        List<CourseQuestionMultiple> inputQ = new ArrayList<>(theCourseTopicRepository.getById(courseTopicId).getMultipleQ());
-        if (!inputQ.isEmpty() && inputQ.size() >= count) {
-            Random rand = new Random();
-            List<CourseQuestionMultiple> result = new ArrayList<>();
-            int listId = 0;
-            for (int i = 0; i < count; i++)
-                listId = rand.nextInt(inputQ.size());
-            result.add(inputQ.get(listId));
-            inputQ.remove(listId);
-            return result;
+        if (count <= 0) return null;
+        ArrayList<CourseQuestionMultiple> courseQuestionMultiple = new ArrayList<>(theCourseTopicRepository.getById(courseTopicId).getMultipleQ());
+        if (courseQuestionMultiple==null)return null;
+        ArrayList<CourseQuestionMultiple> result = new ArrayList<>();
+        Random rand = new Random();
+        CourseQuestionMultiple randomElement = courseQuestionMultiple.get(rand.nextInt(courseQuestionMultiple.size()));
+        courseQuestionMultiple.remove(randomElement);
+        result.add(randomElement);
+        for (int i = 1; i < count; i++) {
+            if (!courseQuestionMultiple.isEmpty()) {
+                randomElement = courseQuestionMultiple.get(rand.nextInt(courseQuestionMultiple.size()));
+                courseQuestionMultiple.remove(randomElement);
+                result.add(randomElement);
+            }
         }
-        return null;
+        return result;
     }
 
 
@@ -201,7 +214,17 @@ public class CourseService {
         try {
             Course courseById = getCourseById(id);
             courseById.addTopic(theTopic);
-            addOrUpdateCourse(courseById);
+            theCourseRepository.save(courseById);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional
+    public boolean justSave(CourseTopic theTopic) {
+        try {
+            theCourseTopicRepository.save(theTopic);
         } catch (Exception e) {
             return false;
         }
@@ -211,7 +234,17 @@ public class CourseService {
     @Transactional
     public boolean addOrUpdateTopic(CourseTopic theTopic) {
         try {
-            theCourseTopicRepository.save(theTopic);
+            if (theTopic.getId() == null)
+                theCourseTopicRepository.save(theTopic);
+            else {
+                CourseTopic temp = theCourseTopicRepository.getById(theTopic.getId());
+                temp.setName(theTopic.getName());
+                temp.setTeacher(theTopic.getTeacher());
+                temp.setContents(theTopic.getContents());
+                theCourseTopicRepository.save(temp);
+            }
+
+
         } catch (Exception e) {
             return false;
         }
@@ -288,12 +321,20 @@ public class CourseService {
         return true;
     }
 
+
     @Transactional
     public boolean addOrUpdateCourse(Course theCourse) {
         try {
-            theCourseRepository.save(theCourse);
-            Files.createDirectory(Paths.get("src\\main\\resources\\templates\\managedCourses/"));
-
+            if (theCourse.getId() == null)
+                theCourseRepository.save(theCourse);
+            else {
+                Course temp = theCourseRepository.getById(theCourse.getId());
+                temp.setCost(theCourse.getCost());
+                temp.setInfo(theCourse.getInfo());
+                temp.setMainTeacher(theCourse.getMainTeacher());
+                temp.setName(theCourse.getName());
+                theCourseRepository.save(temp);
+            }
         } catch (Exception e) {
             return false;
         }
@@ -375,6 +416,7 @@ public class CourseService {
             if (t.getId() > max) max = t.getId();
         return theCQInputRepository.getById(max);
     }
+
     @Transactional
     public CourseQuestionSingle addOrUpdateSingleQuestion(CourseQuestionSingle qu) {
         theCQSingleRepository.save(qu);
@@ -383,6 +425,7 @@ public class CourseService {
             if (t.getId() > max) max = t.getId();
         return theCQSingleRepository.getById(max);
     }
+
     @Transactional
     public CourseQuestionMultiple addOrUpdateMultipleQuestion(CourseQuestionMultiple qu) {
         theCQMultipleRepository.save(qu);
@@ -398,11 +441,20 @@ public class CourseService {
     }
 
     @Transactional
+    public Set<Answer> getAnswerByIds(String[] ids) {
+        if (ids == null) return null;
+        List<Answer> all = theAnswerRepository.findAll();
+        Set<Answer> result = new HashSet<>();
+        for (String id : ids) for (Answer ans : all) if (ans.getId().toString().equals(id)) result.add(ans);
+        return result;
+    }
+
+    @Transactional
     public Answer addOrUpdateAnswer(Answer ans) {
 
         theAnswerRepository.save(ans);
-        long max=0;
-        for (Answer answs: theAnswerRepository.findAllByContent(ans.getContent())){
+        long max = 0;
+        for (Answer answs : theAnswerRepository.findAllByContent(ans.getContent())) {
             if (answs.getId() > max) max = answs.getId();
         }
 

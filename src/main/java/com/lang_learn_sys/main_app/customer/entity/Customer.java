@@ -17,6 +17,21 @@ public class Customer {
     private String email;
     @ManyToMany
     private Set<Course> boughtCourses;
+    @OneToMany
+    private Set<TestResult> successes;
+    public void addSuccess(TestResult temp){
+        this.successes.add(temp);
+    }
+    public void removeSuccess(TestResult temp){
+        this.successes.remove(temp);
+    }
+    public Set<TestResult> getSuccesses() {
+        return successes;
+    }
+
+    public void setSuccesses(Set<TestResult> successes) {
+        this.successes = successes;
+    }
 
     public Set<Course> getBoughtCourses() {
         return boughtCourses;

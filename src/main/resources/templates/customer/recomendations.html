@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <title>Ваш курс</title>
+    </head>
+<body>
+<div th:insert="header :: head"></div>
+<div>
+    <h1>Мы вам рекомендуем!</h1>
+    <div th:if="${needsRetry}">
+        <h3 style="color: red">Внимание! Настоятельно рекомендуем пройти данную тему!</h3>
+        <div th:if="${recCourses!=null}">
+            <div th:each="topic:${recCourses}">
+                <p>Тема: </p>
+                <p th:text="${topic.name}"></p>
+                <p>Преподаватель: </p>
+                <p th:text="${topic.teacher.firstName + ' ' + topic.teacher.lastName}"></p>
+                <form th:action="@{/customer/topic}" method="get">
+                    <input type="hidden" name="course_id" th:value="${course_id}"/>
+                    <input type="hidden" name="topic_id" th:value="${topic.id}"/>
+                    <button type="submit">Выбрать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:if="${!needsRetry}">
+        <div th:if="${haveRecomendations}">
+            <h3>Рекомендуем повторить следующие курсы!</h3>
+            <div th:if="${recCourses!=null}">
+                <div th:each="topic:${recCourses}">
+                    <p>Тема: </p>
+                    <p th:text="${topic.name}"></p>
+                    <p>Преподаватель: </p>
+                    <p th:text="${topic.teacher.firstName + ' ' + topic.teacher.lastName}"></p>
+                    <form th:action="@{/customer/topic}" method="get">
+                        <input type="hidden" name="course_id" th:value="${course_id}"/>
+                        <input type="hidden" name="topic_id" th:value="${topic.id}"/>
+                        <button type="submit">Выбрать</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div th:if="${nextCourse==null}">
+            <h3>Более в данном курсе учить нечего!</h3>
+        </div>
+        <div th:if="${nextCourse!=null}">
+            <h3>Вы можете приступить к изучению следующих курсов!</h3>
+            <p>Тема: </p>
+            <p th:text="${nextCourse.name}"></p>
+            <p>Преподаватель: </p>
+            <p th:text="${nextCourse.teacher.firstName + ' ' + nextCourse.teacher.lastName}"></p>
+            <form th:action="@{/customer/topic}" method="get">
+                <input type="hidden" name="course_id" th:value="${course_id}"/>
+                <input type="hidden" name="topic_id" th:value="${nextCourse.id}"/>
+                <button type="submit">Выбрать</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <form th:action="@{/customer/allTopics}" method="get">
+        <input type="hidden" name="course_id" th:value="${course_id}"/>
+        <button type="submit">Хочу посмотреть все темы!</button>
+    </form>
+</div>
+</body>
+</html>

@@ -16,6 +16,16 @@ public class CourseQuestionSingle {
     private Set<Answer> answers;
     @OneToOne
     private Answer correctAnswer;
+    @Transient
+    private int order;
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
     public int getCorrectivity(Answer userAnswer){
         return correctAnswer.equals(userAnswer)?100:0;

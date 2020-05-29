@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Ваши курсы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+
+<h1>Список оформленных подписок на курсы</h1>
+<div th:switch="${haveCourses}">
+    <div th:case="${false}">
+        <h2>У вас нет оформленных подписок!</h2>
+    </div>
+    <div th:case="${true}">
+        <div th:each="course:${allCourses}">
+            <p>Курс: </p><p th:text="${course.name}"></p>
+            <p>Преподаватель: </p><p th:text="${course.mainTeacher.firstName + ' ' + course.mainTeacher.lastName}"></p>
+            <form th:action="@{/customer/recomendations}" method="get">
+                <input type="hidden" name="course_id" th:value="${course.id}"/>
+                <button type="submit">Выбрать</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
