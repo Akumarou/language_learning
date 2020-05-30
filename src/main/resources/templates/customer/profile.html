@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Профиль</title>
+</head>
+
+<body>
+<div th:insert="header :: head"></div>
+<h1>Страничка пользователя</h1>
+<div>
+    <label>Имя: </label><p th:text="${theClient.firstName}"></p>
+    <label>Фамилия: </label><p th:text="${theClient.lastName}"></p>
+    <label>E-mail: </label><p th:text="${theClient.email}"></p>
+    <form th:action="@{/customer/profile}" method="post">
+        <button type="submit">Параметры</button>
+    </form>
+</div>
+</body>
+</html>

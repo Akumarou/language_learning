@@ -1,5 +1,7 @@
 package com.lang_learn_sys.main_app.accounting.product.entity;
 
+import com.lang_learn_sys.main_app.accounting.product_info.entity.ProductInfo;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,12 +10,24 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String descr;
-    private String price;
+    @OneToOne
+    private ProductInfo prodinfo;
+    private long count;
+
+
+    //будем иметь ссылку на prodinfo
+
+
+    //и скидку обязательно, а может и нет
     private String sale;
 
     public Product() {
+        this.count=0;
+    }
+
+    public Product(ProductInfo prodinfo, long count) {
+        this.prodinfo = prodinfo;
+        this.count = count;
     }
 
     public Long getId() {
@@ -25,34 +39,44 @@ public class Product {
     }
 
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return prodinfo.getName();
     }
 
     public String getDescr() {
-        return descr;
-    }
-
-    public void setDescr(String address) {
-        this.descr = address;
+        return prodinfo.getDescr();
     }
 
     public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+        return prodinfo.getPrice();
     }
 
     public String getSale() {
         return sale;
     }
 
-    public void setSale(String sale) {
-        this.sale = sale;
+    public ProductInfo getProdinfo() {
+        return prodinfo;
+    }
+
+    public void setProdinfo(ProductInfo prodinfo) {
+        this.prodinfo = prodinfo;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", prodinfo=" + prodinfo +
+                ", count=" + count +
+                ", sale='" + sale + '\'' +
+                '}';
     }
 }

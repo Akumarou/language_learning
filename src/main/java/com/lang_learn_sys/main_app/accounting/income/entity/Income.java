@@ -1,6 +1,7 @@
 package com.lang_learn_sys.main_app.accounting.income.entity;
 
 import com.lang_learn_sys.main_app.accounting.product.entity.Product;
+import com.lang_learn_sys.main_app.accounting.product_info.entity.ProductInfo;
 import com.lang_learn_sys.main_app.customer.entity.Customer;
 import com.lang_learn_sys.main_app.employee.entity.Employee;
 
@@ -27,7 +28,7 @@ public class Income {
     public Double getTotalCost() {
         this.totalCost = 0D;
         for(Product pr: this.products){
-            this.totalCost +=Double.parseDouble(pr.getPrice()) - (Double.parseDouble(pr.getPrice()) * Double.parseDouble(pr.getSale()) / 100);
+            this.totalCost +=Double.parseDouble(pr.getPrice())*pr.getCount();
         }
         return this.totalCost;
     }
@@ -55,10 +56,6 @@ public class Income {
 
     public void deleteProd(Product prod) {
         products.remove(prod);
-    }
-
-    public void addProd(Product prod) {
-        products.add(prod);
     }
 
     public boolean isClosed() {

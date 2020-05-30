@@ -3,6 +3,8 @@ package com.lang_learn_sys.main_app.admin.accounting;
 import com.lang_learn_sys.main_app.accounting.income.entity.Income;
 import com.lang_learn_sys.main_app.accounting.income.service.IncomeService;
 import com.lang_learn_sys.main_app.accounting.product.service.ProductService;
+import com.lang_learn_sys.main_app.accounting.product_info.entity.ProductInfo;
+import com.lang_learn_sys.main_app.accounting.product_info.service.ProductInfoService;
 import com.lang_learn_sys.main_app.accounting.writeoff.entity.Writeoff;
 import com.lang_learn_sys.main_app.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class AdminIncomeController {
     CustomerService theCustomerService;
     @Autowired
     ProductService theProductService;
+    @Autowired
+    ProductInfoService theProductInfoService;
 
     @GetMapping("/admin/income/list")
     public String showIncomes(
@@ -76,9 +80,24 @@ public class AdminIncomeController {
     public String addProdToIncome(
             @RequestParam(name = "id", required = true) String id,
             @RequestParam(name = "item_id", required = true) String item_id,
+            @RequestParam(name = "countS", required = false,defaultValue = "1") String countS,
             Model model) {
+        long count = Long.parseLong(countS);
         Income temp = theIncomeService.getIncomeById(Long.parseLong(id));
-        temp.addProd(theProductService.getProductById(Long.parseLong(item_id)));
+        if(temp==null){
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("error", "Неверно задана накладная");
+            model.addAttribute("allIncomes", theIncomeService.getAllIncomes());
+            return "/admin/income/list";
+        }
+        ProductInfo tempProd = theProductInfoService.getProductInfoById(Long.parseLong(item_id));
+        if(count<1||tempProd==null){
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
+            model.addAttribute("theIncome", temp);
+            return "/admin/income/change";
+        }
+        theIncomeService.addProd(temp,tempProd,count);
         if (!theIncomeService.addOrUpdateIncome(temp)) {
             model.addAttribute("hasErrors", true);
             model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
@@ -92,7 +111,8 @@ public class AdminIncomeController {
             @RequestParam(name = "id", required = true) String id,
             Model model) {
         model.addAttribute("id", id);
-        model.addAttribute("allProducts", theProductService.getAllProducts());
+        model.addAttribute("allProducts", theProductInfoService.getAllProductInfos());
+
         return "/admin/income/addProp";
     }
 
@@ -140,6 +160,7 @@ public class AdminIncomeController {
             model.addAttribute("hasErrors", true);
             model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
         }
+        model.addAttribute("allCustomers",theCustomerService.getAllCustomers());
         model.addAttribute("theIncome", temp);
         return "/admin/income/change";
     }

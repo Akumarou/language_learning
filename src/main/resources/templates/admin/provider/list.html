@@ -7,24 +7,22 @@
 </head>
 <body>
 <div th:insert="header :: head"></div>
-<form>
-    <form th:action="@{/admin/provider/list}" method="get">
-        <input type="hidden" name="action" value="add"/>
-        <button type="submit">Добавить нового поставщика</button>
-    </form>
+<form th:action="@{/admin/provider/list}" method="get">
+    <input type="hidden" name="action" value="add"/>
+    <button type="submit">Добавить нового поставщика</button>
 </form>
 <div th:if="${hasErrors}">
     <h1 th:text="${error}"></h1>
 </div>
 <table>
     <thead>
-        <th>Id</th>
-        <th>Наименование</th>
-        <th>Фдрес</th>
-        <th>Телефон</th>
-        <th>ИНН</th>
-        <th>Изменить</th>
-        <th>Удалить</th>
+    <th>Id</th>
+    <th>Наименование</th>
+    <th>Фдрес</th>
+    <th>Телефон</th>
+    <th>ИНН</th>
+    <th>Изменить</th>
+    <th>Удалить</th>
     </thead>
     <tr th:each="provider:${allProviders}">
         <td th:text="${provider.id}"></td>

@@ -4,6 +4,8 @@ import com.lang_learn_sys.main_app.accounting.consumption.entity.Consumption;
 import com.lang_learn_sys.main_app.accounting.consumption.service.ConsumptionService;
 import com.lang_learn_sys.main_app.accounting.income.entity.Income;
 import com.lang_learn_sys.main_app.accounting.product.service.ProductService;
+import com.lang_learn_sys.main_app.accounting.product_info.entity.ProductInfo;
+import com.lang_learn_sys.main_app.accounting.product_info.service.ProductInfoService;
 import com.lang_learn_sys.main_app.accounting.provider.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class AdminConsumptionController {
     ProviderService theProviderService;
     @Autowired
     ProductService theProductService;
+
+    @Autowired
+    ProductInfoService theProductInfoService;
 
     @GetMapping("/admin/consumption/list")
     public String showConsumptions(
@@ -75,9 +80,24 @@ public class AdminConsumptionController {
     public String addProdToConsumption(
             @RequestParam(name = "id", required = true) String id,
             @RequestParam(name = "item_id", required = true) String item_id,
+            @RequestParam(name = "countS", required = false,defaultValue = "1") String countS,
             Model model) {
+        long count = Long.parseLong(countS);
         Consumption temp = theConsumptionService.getConsumptionById(Long.parseLong(id));
-        temp.addProd(theProductService.getProductById(Long.parseLong(item_id)));
+        if(temp==null){
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("error", "Неверно задана накладная");
+            model.addAttribute("allConsumptions", theConsumptionService.getAllConsumptions());
+            return "/admin/consumption/list";
+        }
+        ProductInfo tempProd = theProductInfoService.getProductInfoById(Long.parseLong(item_id));
+        if(count<1||tempProd==null){
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
+            model.addAttribute("theConsumption", temp);
+            return "/admin/consumption/change";
+        }
+        theConsumptionService.addProd(temp,tempProd,count);
         if (!theConsumptionService.addOrUpdateConsumption(temp)) {
             model.addAttribute("hasErrors", true);
             model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
@@ -91,7 +111,7 @@ public class AdminConsumptionController {
             @RequestParam(name = "id", required = true) String id,
             Model model) {
         model.addAttribute("id", id);
-        model.addAttribute("allProducts", theProductService.getAllProducts());
+        model.addAttribute("allProducts", theProductInfoService.getAllProductInfos());
         return "/admin/consumption/addProp";
     }
 

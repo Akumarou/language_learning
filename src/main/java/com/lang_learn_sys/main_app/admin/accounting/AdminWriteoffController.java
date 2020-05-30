@@ -1,6 +1,9 @@
 package com.lang_learn_sys.main_app.admin.accounting;
 
+import com.lang_learn_sys.main_app.accounting.income.entity.Income;
 import com.lang_learn_sys.main_app.accounting.product.service.ProductService;
+import com.lang_learn_sys.main_app.accounting.product_info.entity.ProductInfo;
+import com.lang_learn_sys.main_app.accounting.product_info.service.ProductInfoService;
 import com.lang_learn_sys.main_app.accounting.writeoff.entity.Writeoff;
 import com.lang_learn_sys.main_app.accounting.writeoff.service.WriteoffService;
 import com.lang_learn_sys.main_app.employee.service.EmployeeService;
@@ -23,6 +26,8 @@ public class AdminWriteoffController {
     EmployeeService theEmployeeService;
     @Autowired
     ProductService theProductService;
+    @Autowired
+    ProductInfoService theProductInfoService;
 
     @GetMapping("/admin/writeoff/list")
     public String showWriteoffs(
@@ -53,6 +58,7 @@ public class AdminWriteoffController {
                     model.addAttribute("allWriteoffs", theWriteoffService.getAllWriteoffs());
                     return "/admin/writeoff/list";
                 }
+                model.addAttribute("allEmployees", theEmployeeService.getAllEmployees());
                 model.addAttribute("theWriteoff", theWriteoffService.getWriteoffById(id_u));
                 return "/admin/writeoff/change";
             case "delete":
@@ -74,12 +80,27 @@ public class AdminWriteoffController {
             @RequestParam(name = "id", required = true) String id,
             @RequestParam(name = "item_id", required = true) String item_id,
             @RequestParam(name = "action", required = true) String action,
-            Model model) {
+            @RequestParam(name = "countS", required = false,defaultValue = "1") String countS,
+            Model model)  {
         Writeoff temp = theWriteoffService.getWriteoffById(Long.parseLong(id));
+        if(temp==null){
+            model.addAttribute("hasErrors", true);
+            model.addAttribute("error", "Неверно задана накладная");
+            model.addAttribute("allIncomes", theWriteoffService.getAllWriteoffs());
+            return "/admin/writeoff/list";
+        }
         if (action.equals("addEmpl")) {
             temp.addEmpl(theEmployeeService.getEmployeeById(Long.parseLong(item_id)));
         } else if (action.equals("addProd")) {
-            temp.addProd(theProductService.getProductById(Long.parseLong(item_id)));
+                long count = Long.parseLong(countS);
+                ProductInfo tempProd = theProductInfoService.getProductInfoById(Long.parseLong(item_id));
+                if(count<1||tempProd==null){
+                    model.addAttribute("hasErrors", true);
+                    model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
+                    model.addAttribute("theIncome", temp);
+                    return "/admin/writeoff/change";
+                }
+                theWriteoffService.addProd(temp,tempProd,count);
         }
         if (!theWriteoffService.addOrUpdateWriteoff(temp)) {
             model.addAttribute("hasErrors", true);
@@ -102,7 +123,7 @@ public class AdminWriteoffController {
         } else if (action.equals("addProd")) {
             model.addAttribute("id", id);
             model.addAttribute("actionBool",false);
-            model.addAttribute("allProducts", theProductService.getAllProducts());
+            model.addAttribute("allProducts", theProductInfoService.getAllProductInfos());
             return "/admin/writeoff/addProp";
         }
         model.addAttribute("allWriteoffs", theWriteoffService.getAllWriteoffs());
@@ -152,6 +173,7 @@ public class AdminWriteoffController {
             model.addAttribute("hasErrors", true);
             model.addAttribute("error", "Возникла ошибка при обновлении (добавлении) :(");
         }
+        model.addAttribute("allEmployees", theEmployeeService.getAllEmployees());
         model.addAttribute("theWriteoff", temp);
         return "/admin/writeoff/change";
     }

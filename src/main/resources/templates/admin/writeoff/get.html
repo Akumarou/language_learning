@@ -26,7 +26,9 @@
 <span>
     <h3>Список товаров</h3>
     <p th:each="prod:${theWriteoff.products}">
-        <span th:text="${prod.name}"></span>
+        <lable>Товар: </lable><span th:text="${prod.name}"></span>
+        <lable> Количество: </lable><span th:text="${prod.count}"></span>
+        <lable> Цена: </lable><span th:text="${prod.price}"></span>
     </p>
 </span>
 </body>

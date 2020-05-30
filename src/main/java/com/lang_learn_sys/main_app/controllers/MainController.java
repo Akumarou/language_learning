@@ -45,7 +45,7 @@ public class MainController implements WebMvcConfigurer {
 
     @RequestMapping("/news")
     public String showNews() {
-        Authentication authentication = new UsernamePasswordAuthenticationToken("admin", "12345");
+        Authentication authentication = new UsernamePasswordAuthenticationToken("client1", "12345");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "news";
     }

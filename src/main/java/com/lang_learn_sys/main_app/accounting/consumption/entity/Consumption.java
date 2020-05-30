@@ -34,7 +34,7 @@ public class Consumption {
     public Double getTotalCost() {
         this.totalCost = 0D;
         for(Product pr: this.products){
-            this.totalCost +=Double.parseDouble(pr.getPrice()) - (Double.parseDouble(pr.getPrice()) * Double.parseDouble(pr.getSale()) / 100);
+            this.totalCost +=Double.parseDouble(pr.getPrice())*pr.getCount();
         }
         return this.totalCost;
     }
@@ -43,9 +43,6 @@ public class Consumption {
         products.remove(prod);
     }
 
-    public void addProd(Product prod) {
-        products.add(prod);
-    }
 
     public Long getId() {
         return id;

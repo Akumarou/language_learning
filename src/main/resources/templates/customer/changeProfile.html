@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Профиль</title>
+</head>
+
+<body>
+<div th:insert="header :: head"></div>
+<h1>Параметры</h1>
+<form th:action="@{/customer/changeCustomerInfo}" method="post" >
+    <label>Имя: <input type="text" name="firstName" th:value="${theClient.firstName}"/></label><br/>
+    <label>Фамилия: <input type="text" name="lastName" th:value="${theClient.lastName}"/></label><br/>
+    <label>E-mail: <input type="text" name="email" th:value="${theClient.email}"/></label><br/>
+    <button type="submit">Сохранить</button>
+    <span th:if="${info!=null}"><p style="color: green;" th:text="${info}"></p></span>
+</form><br/><hr/><br/><hr/><br/>
+<form th:action="@{/customer/changeCustomerPassword}" method="post" >
+    <label>Старый пароль: <input type="password" name="oldPass"/></label><br/>
+    <label>Новый пароль: <input type="password" name="newPass"/></label><br/>
+    <label>Новый пароль(повторить): <input type="password" name="repPass"/></label><br/>
+    <button type="submit">Сохранить</button>
+    <span th:if="${err!=null}"><p style="color: red;" th:text="${err}"></p></span>
+    <span th:if="${infopass!=null}"><p style="color: green;" th:text="${infopass}"></p></span>
+</form>
+</body>
+</html>

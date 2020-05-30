@@ -27,7 +27,7 @@ public class Writeoff {
     public Double getTotalCost() {
         this.totalCost = 0D;
         for(Product pr: this.products){
-            this.totalCost +=Double.parseDouble(pr.getPrice()) - (Double.parseDouble(pr.getPrice()) * Double.parseDouble(pr.getSale()) / 100);
+            this.totalCost +=Double.parseDouble(pr.getPrice());
         }
         return this.totalCost;
     }
