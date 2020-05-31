@@ -14,6 +14,7 @@ import com.lang_learn_sys.main_app.course.repo.CourseRepository;
 import com.lang_learn_sys.main_app.course.repo.CourseTopicRepository;
 import com.lang_learn_sys.main_app.customer.entity.Customer;
 import com.lang_learn_sys.main_app.customer.service.CustomerService;
+import com.lang_learn_sys.main_app.employee.entity.Employee;
 import com.lang_learn_sys.main_app.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,7 +80,18 @@ public class CourseService {
         return true;
     }
 
-
+    /*
+    Функционал для преподавателя
+     */
+    @Transactional
+    public  List<Course> getAllCoursesForTeacher(Employee employee) {
+        List<Course> teachersCourses = new ArrayList<>();
+        for (Course crs:theCourseRepository.findAll()){
+            if(crs.getMainTeacher().equals(employee))
+                teachersCourses.add(crs);
+        }
+        return teachersCourses;
+    }
     /*
     Функционал для пользователя для оперирования уже заготовленными подписками
      */

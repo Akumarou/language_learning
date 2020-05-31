@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма продукта</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form action="#" th:action="@{/sales_dep/product/list}" th:object="${theProduct}" method="post">
+    <h1>Добавление/изменение продукта</h1>
+    <input type="hidden" th:field="*{id}" /><br/>
+    <label>Наименование: </label><input type="text" th:field="*{name}" /><br/>
+    <label>Описание: </label><input type="text" th:field="*{descr}" /><br/>
+    <label>Цена: </label><input type="text" th:field="*{price}" /><br/>
+    <label>Скидка: </label><input type="text" th:field="*{sale}" /><br/>
+    <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

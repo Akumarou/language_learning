@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <title>Отчет</title>
+    </head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Выберите накладные/чеки для составления бухгалтерского отчета</h1>
+<div th:if="${incomes!=null}">
+    <h4>Приход</h4>
+    <table>
+        <thead>
+        <th></th>
+        <th>Дата</th>
+        <th>Клиент</th>
+        <th>Полная стоимость</th>
+        </thead>
+        <tr th:each="income:${incomes}">
+            <td><input type="checkbox"/></td>
+            <td th:text="${income.date}"></td>
+            <td th:text="${income.customer.firstName + ' ' + income.customer.lastName}"></td>
+            <td th:text="${income.getTotalCost()}"></td>
+        </tr>
+    </table>
+    <hr/><hr/>
+</div>
+<div th:if="${consumptions!=null}">
+    <h4>Закупки</h4>
+    <table>
+        <thead>
+        <th></th>
+        <th>Дата</th>
+        <th>Поставщик</th>
+        <th>Полная стоимость</th>
+        </thead>
+        <tr th:each="consumption:${consumptions}">
+            <td><input type="checkbox"/></td>
+            <td th:text="${consumption.date}"></td>
+            <td th:text="${consumption.provider.name}"></td>
+            <td th:text="${consumption.getTotalCost()}"></td>
+        </tr>
+    </table>
+    <hr/><hr/>
+</div>
+<div th:if="${writeoffs!=null}">
+    <h4>Списание</h4>
+    <table>
+        <thead>
+        <th></th>
+        <th>Дата</th>
+        <th>Сотрудники</th>
+        <th>Полная стоимость</th>
+        </thead>
+        <tr th:each="writeoff:${writeoffs}">
+            <td><input type="checkbox"/></td>
+            <td th:text="${writeoff.date}"></td>
+            <td>
+                <p th:each="empl:${writeoff.employees}">
+                    <span th:text="${empl.firstName}"></span>
+                    <span> </span>
+                    <span th:text="${empl.lastName}"></span>
+                </p>
+            </td>
+            <td th:text="${writeoff.getTotalCost()}"></td>
+        </tr>
+    </table>
+    <hr/><hr/>
+</div>
+<form th:action="@{/accountant/makeReport}" method="get">
+    <button type="submit">Составить и скачать</button>
+</form>
+</body>
+</html>

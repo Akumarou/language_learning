@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Профиль сотрудника</title>
+</head>
+
+<body>
+<div th:insert="header :: head"></div>
+<h1>Страничка сотрудника</h1>
+<div>
+    <label>Имя: </label><span th:text="${theEmployee.firstName}"></span>
+    <label>Фамилия: </label><span th:text="${theEmployee.lastName}"></span>
+    <label>E-mail: </label><span th:text="${theEmployee.email}"></span>
+    <label>Паспортные данные: </label><span th:text="${theEmployee.passport}"></span>
+    <label>Должность: </label><span th:text="${theEmployee.position}"></span>
+    <label>Телефон: </label><span th:text="${theEmployee.phone}"></span>
+    <label>Дата рожденья: </label><span th:text="${theEmployee.birthday}"></span>
+    <form th:action="@{/employee/profile}" method="post">
+        <button type="submit">Параметры</button>
+    </form>
+</div>
+</body>
+</html>

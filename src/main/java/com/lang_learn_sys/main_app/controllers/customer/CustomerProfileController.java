@@ -5,8 +5,6 @@ import com.lang_learn_sys.main_app.customer.service.CustomerService;
 import com.lang_learn_sys.main_app.security.entity.User;
 import com.lang_learn_sys.main_app.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;

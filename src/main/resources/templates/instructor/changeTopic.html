@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Изменение темы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Добавление/изменение темы: </h1>
+<form name="myform" onsubmit="return save()" th:action="@{/instructor/changeTopic}" th:object="${theTopic}" method="post">
+    <div th:if="${theCourseId == 0}">
+        <input type="hidden" th:field="*{id}"/>
+    </div>
+    <div th:if="${theCourseId != 0}">
+        <input type="text" name="tempCourseId" th:value="${theCourseId}"/>
+    </div>
+    <label>Название темы: </label><input type="text" th:field="*{name}"/>
+    <input type="hidden" th:field="*{teacher}"/>
+    <label>Содержание: </label>
+
+    <input type="hidden" id="content" name="content" th:field="*{contents}"/>
+
+    <script th:inline="javascript" type="text/javascript">
+        // Вывод кнопок редактирования
+        document.write("<input type='button' value='Ж' onclick='execu(\"bold\",\"\")' />");
+        document.write("<input type='button' value='К' onclick='execu(\"italic\",\"\")' />");
+        document.write("<input type='button' value='П' onclick='execu(\"underline\",\"\")' />");
+        document.write("<br />");
+        document.write("<input type='button' value='Заголовок' onclick='execu(\"fontSize\",\"5\")' />");
+        document.write("<input type='button' value='Подзаголовок' onclick='execu(\"fontSize\",\"4\")' />");
+        document.write("<input type='button' value='Список' onclick='execu(\"insertunorderedlist\",\"\")' />");
+        document.write("<input type='button' value='Очистить' onclick='execu(\"removeFormat\",\"\")' />");
+        document.write("<br />");
+        document.write("<input type='button' value='Cut' onclick='execu(\"cut\",\"\")' />");
+        document.write("<input type='button' value='Copy' onclick='execu(\"copy\",\"\")' />");
+        document.write("<input type='button' value='Paste' onclick='execu(\"paste\",\"\")' />");
+        document.write("<br  />");
+        document.write("<input type='button' value='Undo' onclick='execu(\"undo\",\"\")' />");
+        document.write("<input type='button' value='Redo' onclick='execu(\"redo\",\"\")' />");
+        document.write("<br />");
+        document.write("<label>Выравание: </label>");
+        document.write("<input type='button' value='слева' onclick='execu(\"justifyLeft\",\"\")' />");
+        document.write("<input type='button' value='справа' onclick='execu(\"justifyRight\",\"\")' />");
+        document.write("<input type='button' value='по центру' onclick='execu(\"justifyCenter\",\"\")' />");
+        document.write("<input type='button' value='по всей ширине' onclick='execu(\"justifyFull\",\"\")' />");
+        document.write("<br />");
+        document.write("<iframe scrolling='yes' frameborder='no' src='#' id='frameId' name='frameId'></iframe>"); // Добавляем iframe
+        /* В зависимости от браузера получаем доступ к созданному фрейму */
+        var isGecko = navigator.userAgent.toLowerCase().indexOf("gecko") != -1;
+        var iframe = (isGecko) ? document.getElementById("frameId") : frames["frameId"];
+        var iWin = (isGecko) ? iframe.contentWindow : iframe.window;
+        var iDoc = (isGecko) ? iframe.contentDocument : iframe.document;
+        /* Создаём код пустой HTML-страницы */
+        iHTML = "<html><head></head><body style='background-color: white;'>" + content.value +
+            "</body></html>";
+        iDoc.open(); // Открываем фрейм
+        iDoc.write(iHTML); // Добавляем написанный код в фрейм
+        iDoc.close(); // Закрываем фрейм
+        iDoc.designMode = "on"; // Включаем режим редактирования фрейма
+        /* Функции для задания внешнего вида выделенного текста
+        Полный набор возможных команд: http://javascript.itsoft.ru/execcom/execCommands.html */
+        function execu(param,additional) {
+            iWin.focus();
+            iWin.document.execCommand(param, true, additional);
+        }
+
+        function save() {
+            /* Сохранение HTML-кода в поле hidden, чтобы потом можно было передать полученный HTML-код в скрипт-обработчик */
+            document.getElementById("content").value = iDoc.body.innerHTML;
+            return true;
+        }
+    </script>
+    <button type="submit">Сохранить</button>
+</form>
+<hr/>
+<hr/>
+<!--дальше вопросы, только при редактировании,а не добавлении-->
+<div th:if="${theCourseId == 0}">
+    <!--    тут клавиши добавить-->
+    <form th:action="@{/instructor/changeQuestion}" method="get">
+        <input type="hidden" name="id" th:value="${theTopic.id}"/>
+        <input type="hidden" name="questionType" value="input"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый вопрос со вводом ответа</button>
+    </form>
+    <form th:action="@{/instructor/changeQuestion}" method="get">
+        <input type="hidden" name="id" th:value="${theTopic.id}"/>
+        <input type="hidden" name="questionType" value="single"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый вопрос с единственным выбором</button>
+    </form>
+    <form th:action="@{/instructor/changeQuestion}" method="get">
+        <input type="hidden" name="id" th:value="${theTopic.id}"/>
+        <input type="hidden" name="questionType" value="multiple"/>
+        <input type="hidden" name="action" value="add"/>
+        <button type="submit">Добавить новый вопрос со множественным выбором</button>
+    </form>
+    <hr/>
+    <!--тут показываются вопросы-->
+    <!--тут вводные вопросы-->
+    <div th:if="${theTopic.inputQ!=null}">
+        <div th:each="question:${theTopic.inputQ}">
+            <label>Вопрос: </label>
+            <div th:text="${question.question}"></div>
+            <label>Метод ответа: </label>
+            <div>Ввод</div>
+            <form th:action="@{/instructor/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="input"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+            <form th:action="@{/instructor/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="input"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <!--тут с единственным выбором вопросы-->
+    <div th:if="${theTopic.singleQ!=null}">
+        <div th:each="question:${theTopic.singleQ}">
+            <label>Вопрос: </label>
+            <div th:text="${question.question}"></div>
+            <label>Метод ответа: </label>
+            <div>выбор единственного значения</div>
+            <form th:action="@{/instructor/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="single"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+            <form th:action="@{/instructor/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="single"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <!--тут со множественным выбором вопросы-->
+    <div th:if="${theTopic.multipleQ!=null}">
+        <div th:each="question:${theTopic.multipleQ}">
+            <label>Вопрос: </label>
+            <div th:text="${question.question}"></div>
+            <label>Метод ответа: </label>
+            <div>множественный выбор</div>
+            <form th:action="@{/instructor/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="multiple"/>
+                <input type="hidden" name="action" value="update"/>
+                <button type="submit">Изменить</button>
+            </form>
+            <form th:action="@{/instructor/changeQuestion}" method="get">
+                <input type="hidden" name="id" th:value="${question.id}"/>
+                <input type="hidden" name="questionType" value="multiple"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+</div>
+</body>
+</html>

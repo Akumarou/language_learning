@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Изменение вопроса</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Добавление/изменение вопроса: </h1>
+<div th:if="${questionType=='input'}">
+    <form th:action="@{/instructor/inputQuestion}" method="post">
+        <div th:if="${theQuestion.id != null}">
+            <input type="hidden" name="idI" th:value="${theQuestion.id}"/>
+        </div>
+        <input type="hidden" name="theTopicId" th:value="${theTopicId}"/>
+        <label>Вопрос: </label><input type="text" name="questionI" th:value="${theQuestion.question}"/>
+        <label>Ответ: </label><input type="text" name="correctAnswerI" th:value="${theQuestion.correctAnswer}"/>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+<div th:if="${questionType=='single'}">
+    <form th:action="@{/instructor/singleQuestion}" method="post">
+        <div th:if="${theQuestion.id != null}">
+            <input type="hidden" name="idS" th:value="${theQuestion.id}"/>
+        </div>
+        <div th:if="${givenAction=='add'}">
+            <input type="hidden" name="theTopicId" th:value="${theTopicId}"/>
+        </div>
+        <label>Вопрос: </label><input type="text" name="questionS" th:value="${theQuestion.question}"/>
+        <label>Ответы: </label><br>
+        <div th:if="${givenAction=='add'}">
+            <label>1: </label><input type="text" name="answerS1"/><br/>
+            <label>2: </label><input type="text" name="answerS2"/><br/>
+            <label>3: </label><input type="text" name="answerS3"/><br/>
+            <label>4: </label><input type="text" name="answerS4"/><br/>
+        </div>
+        <div th:if="${givenAction!='add'}">
+            <label>1: </label><input type="text" name="answerS1" th:value="${question1.content}"/><br/>
+            <input type="hidden" name="question1id" th:value="${question1.id}"/>
+            <label>2: </label><input type="text" name="answerS2" th:value="${question2.content}"/><br/>
+            <input type="hidden" name="question2id" th:value="${question2.id}"/>
+            <label>3: </label><input type="text" name="answerS3" th:value="${question3.content}"/><br/>
+            <input type="hidden" name="question3id" th:value="${question3.id}"/>
+            <label>4: </label><input type="text" name="answerS4" th:value="${question4.content}"/><br/>
+            <input type="hidden" name="question4id" th:value="${question4.id}"/>
+        </div>
+        <div th:if="${givenAction=='add'}">
+            <label>Правильный ответ: </label><select name="correctAnsS">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        </div>
+        <div th:if="${givenAction!='add'}">
+            <label>Правильный ответ: </label><select name="correctAnsS">
+            <div th:if="${correctAnsId==1}">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </div>
+            <div th:if="${correctAnsId==2}">
+                <option value="1" >1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </div>
+            <div th:if="${correctAnsId==3}">
+                <option value="1" >1</option>
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+            </div>
+            <div th:if="${correctAnsId==4}">
+                <option value="1" >1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+            </div>
+        </select>
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+<div th:if="${questionType=='multiple'}">
+    <form th:action="@{/instructor/multiQuestion}" method="post">
+        <div th:if="${theQuestion.id != null}">
+            <input type="hidden" name="idM" th:value="${theQuestion.id}"/>
+        </div>
+        <div th:if="${givenAction=='add'}">
+            <input type="hidden" name="theTopicId" th:value="${theTopicId}"/>
+        </div>
+        <label>Вопрос: </label><input type="text" name="questionM" th:value="${theQuestion.question}"/>
+        <label>Ответы: </label><br>
+        <div th:if="${givenAction=='add'}">
+            <label>1: </label><input type="text" name="answerM1"/><input type="checkbox" name="correctAnsM" value="1"><br/>
+            <label>2: </label><input type="text" name="answerM2"/><input type="checkbox" name="correctAnsM" value="2"><br/>
+            <label>3: </label><input type="text" name="answerM3"/><input type="checkbox" name="correctAnsM" value="3"><br/>
+            <label>4: </label><input type="text" name="answerM4"/><input type="checkbox" name="correctAnsM" value="4"><br/>
+        </div>
+        <div th:if="${givenAction!='add'}">
+            <label>1: </label><input type="text" name="answerM1" th:value="${question1.content}"/>
+            <div th:switch="${checked1}">
+                <input th:case="${true}" type="checkbox" name="correctAnsM" value="1" checked><br/>
+                <input th:case="${false}" type="checkbox" name="correctAnsM" value="1"><br/>
+            </div>
+            <br/>
+            <input type="hidden" name="question1id" th:value="${question1.id}"/>
+            <label>2: </label><input type="text" name="answerM2" th:value="${question2.content}"/>
+            <div th:switch="${checked2}">
+                <input th:case="${true}" type="checkbox" name="correctAnsM" value="2" checked><br/>
+                <input th:case="${false}" type="checkbox" name="correctAnsM" value="2"><br/>
+            </div>
+            <br/>
+            <input type="hidden" name="question2id" th:value="${question2.id}"/>
+            <label>3: </label><input type="text" name="answerM3" th:value="${question3.content}"/>
+            <div th:switch="${checked3}">
+                <input th:case="${true}" type="checkbox" name="correctAnsM" value="3" checked><br/>
+                <input th:case="${false}" type="checkbox" name="correctAnsM" value="3"><br/>
+            </div>
+            <br/>
+            <input type="hidden" name="question3id" th:value="${question3.id}"/>
+            <label>4: </label><input type="text" name="answerM4" th:value="${question4.content}"/>
+            <div th:switch="${checked4}">
+                <input th:case="${true}" type="checkbox" name="correctAnsM" value="4" checked><br/>
+                <input th:case="${false}" type="checkbox" name="correctAnsM" value="4"><br/>
+            </div>
+            <br/>
+            <input type="hidden" name="question4id" th:value="${question4.id}"/>
+        </div>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+</body>
+</html>

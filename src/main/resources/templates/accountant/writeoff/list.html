@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Список накладных на закупку</title>
+    <title>Список накладных на списание</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <div th:insert="header :: head"></div>
-    <form th:action="@{/admin/consumption/list}" method="get">
+    <form th:action="@{/accountant/writeoff/list}" method="get">
         <input type="hidden" name="action" value="add"/>
         <button type="submit">Добавить новую накладную</button>
     </form>
@@ -18,39 +18,37 @@
     <thead>
         <th>Id</th>
         <th>Дата</th>
-        <th>Поставщик</th>
+        <th>Сотрудники</th>
         <th>Закрыта</th>
         <th>Полная стоимость</th>
-        <th>Подробнее</th>
         <th>Изменить</th>
         <th>Удалить</th>
     </thead>
-    <tr th:each="consumption:${allConsumptions}">
-        <td th:text="${consumption.id}"></td>
-        <td th:text="${consumption.date}"></td>
-        <td th:text="${consumption.provider.name}"></td>
-        <div th:switch="${consumption.isClosed()}">
+    <tr th:each="writeoff:${allWriteoffs}">
+        <td th:text="${writeoff.id}"></td>
+        <td th:text="${writeoff.date}"></td>
+        <td>
+            <p th:each="empl:${writeoff.employees}">
+                <span th:text="${empl.firstName}"></span>
+                <span> </span>
+                <span th:text="${empl.lastName}"></span>
+            </p>
+        </td>
+        <div th:switch="${writeoff.isClosed()}">
             <td th:case="${true}">Да</td>
             <td th:case="*">Нет</td>
         </div>
-        <td th:text="${consumption.getTotalCost()}"></td>
+        <td th:text="${writeoff.getTotalCost()}"></td>
         <td>
-            <form th:action="@{/admin/consumption/list}" method="get">
-                <input type="hidden" name="id" th:value="${consumption.id}"/>
-                <input type="hidden" name="action" value="get"/>
-                <button type="submit">Подробно</button>
-            </form>
-        </td>
-        <td>
-            <form th:action="@{/admin/consumption/list}" method="get">
-                <input type="hidden" name="id" th:value="${consumption.id}"/>
+            <form th:action="@{/accountant/writeoff/list}" method="get">
+                <input type="hidden" name="id" th:value="${writeoff.id}"/>
                 <input type="hidden" name="action" value="update"/>
                 <button type="submit">Изменить</button>
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/consumption/list}" method="get">
-                <input type="hidden" name="id" th:value="${consumption.id}"/>
+            <form th:action="@{/accountant/writeoff/list}" method="get">
+                <input type="hidden" name="id" th:value="${writeoff.id}"/>
                 <input type="hidden" name="action" value="delete"/>
                 <button type="submit">Удалить</button>
             </form>

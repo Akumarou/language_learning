@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма накладной</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Изменение накладной на списание</h1>
+<form action="#" th:action="@{/accountant/writeoff/change}"method="post">
+    <input type="hidden" name = "id" th:field="${theWriteoff.id}" />
+    <label>Изменить дату: </label><input type="date" name="date" th:text="${' (Текущая: '+theWriteoff.date} + ') '" />
+    <button type="submit">Сохранить</button>
+</form>
+<form action="#" th:action="@{/accountant/writeoff/change}"method="post">
+    <input type="hidden" name = "id" th:field="${theWriteoff.id}" /><br/>
+    <label>Закрыть/Открыть накладную: </label>
+    <input type="submit" name="open" value="Открыть"/>
+    <input type="submit" name="close" value="Закрыть"/>
+</form>
+<h3>Сотрудники</h3>
+<div th:each="empl:${theWriteoff.employees}">
+    <form action="#" th:action="@{/accountant/writeoff/change}" method="post">
+        <input type="hidden" name = "emplId" th:value="${empl.user_id}" />
+        <input type="hidden" name="id" th:field="${theWriteoff.id}" />
+        <p th:text="${empl.firstName + ' ' + empl.lastName}"></p>
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+<form th:action="@{/accountant/writeoff/addProp}" method="get">
+    <input type="hidden" name="id" th:value="${theWriteoff.id}"/>
+    <input type="hidden" name="action" value="addEmpl"/>
+    <button type="submit">Добавить сотрудника</button>
+</form>
+<h3>Товары</h3>
+<div th:each="prod:${theWriteoff.products}">
+    <form action="#" th:action="@{/accountant/writeoff/change}" method="post">
+        <input type="hidden" name = "prodId" th:value="${prod.id}" />
+        <input type="hidden" name="id" th:field="${theWriteoff.id}" /><br/>
+        <lable>Товар: </lable><span th:text="${prod.name}"></span>
+        <lable> Количество: </lable><span th:text="${prod.count}"></span>
+        <lable> Цена: </lable><span th:text="${prod.price}"></span>
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+<form th:action="@{/accountant/writeoff/addProp}" method="get">
+    <input type="hidden" name="id" th:value="${theWriteoff.id}"/>
+    <input type="hidden" name="action" value="addProd"/>
+    <button type="submit">Добавить продукт</button>
+</form>
+</body>
+</html>

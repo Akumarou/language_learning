@@ -7,13 +7,35 @@
         <a th:href="@{/login}">Логин </a>
         <a th:href="@{/registration}">Регистрация </a>
         <a th:href="@{/logout}">Выйти </a>
-        <a th:href="@{/news}">Новости </a>
     </div>
     <br/>
     <div>
         Пользователь
-        <a th:href="@{/customer/listCourses}">Все курсы </a>
         <a th:href="@{/customer/profile}">Профиль </a>
+        <a th:href="@{/customer/listCourses}">Все курсы </a>
+        <a th:href="@{/customer/buy}">Приобретение курсов </a>
+    </div>
+    <br/>
+    <div>
+        Преподаватель
+        <a th:href="@{/employee/profile}">Профиль </a>
+        <a th:href="@{/instructor/listCourses}">Редактирование курсов </a>
+    </div>
+    <br/>
+    <div>
+        Отдел продаж
+        <a th:href="@{/employee/profile}">Профиль </a>
+        <a th:href="@{/sales_dep/product/change}">Добавить товар </a>
+        <a th:href="@{/sales_dep/listIncome}">Приход </a>
+        <a th:href="@{/sales_dep/listConsumption}">Закупки </a>
+    </div>
+    <br/>
+    <div>
+        Бухгалтерия
+        <a th:href="@{/employee/profile}">Профиль </a>
+        <a th:href="@{/accountant/product/change}">Добавить товар </a>
+        <a th:href="@{/accountant/writeoff/list}">Списание </a>
+        <a th:href="@{/accountant/makeReport}">Составить бухгалтерский отчет </a>
     </div>
     <br/>
     <div>

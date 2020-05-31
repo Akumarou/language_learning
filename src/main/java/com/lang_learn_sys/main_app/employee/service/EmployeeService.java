@@ -1,5 +1,6 @@
 package com.lang_learn_sys.main_app.employee.service;
 
+import com.lang_learn_sys.main_app.customer.entity.Customer;
 import com.lang_learn_sys.main_app.customer.service.CustomerService;
 import com.lang_learn_sys.main_app.employee.entity.Employee;
 import com.lang_learn_sys.main_app.employee.repo.EmployeeRepository;
@@ -53,6 +54,11 @@ public class EmployeeService {
     public boolean addOrUpdateEmployee(Employee theEmployee, UserService theUserService){
         if(theUserService.findUserById((long)theEmployee.getUser_id())==null) return false;
         theEmployeeRepository.save(theEmployee);
+        Customer cutomerById = theCustomerService.getCutomerById(theEmployee.getUser_id());
+        cutomerById.setFirstName(theEmployee.getFirstName());
+        cutomerById.setLastName(theEmployee.getLastName());
+        cutomerById.setEmail(theEmployee.getEmail());
+        theCustomerService.addOrUpdateCustomer(cutomerById,theUserService);
         return true;
     }
 }

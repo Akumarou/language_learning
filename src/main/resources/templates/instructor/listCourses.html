@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Редактировать курсы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Учебные курсы, которые вы можете редактировать</h1>
+<div>
+    <table>
+        <tr>
+            <td>Курс</td>
+            <td>Стоимость</td>
+            <td>Краткая информация</td>
+            <td>Количество курсов</td>
+            <td></td>
+        </tr>
+        <tr th:each="course:${courses}">
+            <td th:text="${course.name}"></td>
+            <td th:text="${course.getCost()}"></td>
+            <td th:text="${course.info}"></td>
+            <td th:text="${course.getCountOfCourses()}"></td>
+            <td>
+                <form th:action="@{/instructor/changeCourse}" method="post">
+                    <input type="hidden" name="id" th:value="${course.id}"/>
+                    <button type="submit">Редактировать</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

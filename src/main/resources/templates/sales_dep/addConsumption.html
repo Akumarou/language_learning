@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма чека</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<form action="#" th:action="@{/sales_dep/addConsumption}" th:object="${theConsumption}" method="post">
+    <h1>Добавление накладной</h1>
+    <input type="hidden" th:field="*{id}" /><br/>
+    <label>Дата: </label><input type="date" th:field="*{date}" /><br/>
+    <label>Клиент: </label>
+    <select name="cust">
+    <option th:each="empl : ${allProviders}"
+            th:value="${empl.id}"
+            th:text="${empl.name}">
+    </option>
+    </select><br/>
+    <button type="submit">Перейти к добавлению товара</button>
+</form>
+</body>
+</html>

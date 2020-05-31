@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Форма накладной</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Изменение накладной на закупку</h1>
+<form action="#" th:action="@{/sales_dep/changeConsumption}"method="post">
+    <input type="hidden" name = "id" th:field="${theConsumption.id}" />
+    <label>Изменить дату: </label><input type="date" name="date" th:text="${' (Текущая: '+theConsumption.date} + ') '" />
+    <button type="submit">Сохранить</button>
+</form>
+<form action="#" th:action="@{/sales_dep/changeConsumption}"method="post">
+    <input type="hidden" name = "id" th:field="${theConsumption.id}" /><br/>
+    <label>Закрыть/Открыть накладную: </label>
+    <input type="submit" name="open" value="Открыть"/>
+    <input type="submit" name="close" value="Закрыть"/>
+</form>
+<h3>Поставщик: <span th:text="${theConsumption.provider.name}"></span> </h3>
+<form th:action="@{/sales_dep/addPropConsumption}" method="get">
+    <input type="hidden" name="id" th:value="${theConsumption.id}"/>
+    <label>Изменить поставщика: </label><select name="custId">
+    <option th:each="cust : ${allProviders}"
+            th:value="${cust.id}"
+            th:text="${cust.name}">
+    </option>
+    </select><br/>
+    <button type="submit">Сохранить</button>
+</form>
+<h3>Товары</h3>
+<div th:each="prod:${theConsumption.products}">
+    <form action="#" th:action="@{/sales_dep/changeConsumption}" method="post">
+        <input type="hidden" name = "prodId" th:value="${prod.id}" />
+        <input type="hidden" name="id" th:field="${theConsumption.id}" /><br/>
+        <lable>Товар: </lable><span th:text="${prod.name}"></span>
+        <lable> Количество: </lable><span th:text="${prod.count}"></span>
+        <lable> Цена: </lable><span th:text="${prod.price}"></span>
+        <button type="submit">Удалить</button>
+    </form>
+</div>
+<form th:action="@{/sales_dep/addPropConsumption}" method="get">
+    <input type="hidden" name="id" th:value="${theConsumption.id}"/>
+    <input type="hidden" name="action" value="addProd"/>
+    <button type="submit">Добавить продукт</button>
+</form>
+</body>
+</html>

@@ -7,17 +7,17 @@
 </head>
 <body>
 <div th:insert="header :: head"></div>
-<!--<div>-->
-<!--    <div sec:authorize="!isAuthenticated()">-->
-<!--        <h4><a href="/login">Войти</a></h4>-->
-<!--        <h4><a href="/registration">Зарегистрироваться</a></h4>-->
-<!--    </div>-->
-<!--    <div sec:authorize="isAuthenticated()">-->
-<!--        <h2>Здравствуйте, -->
-<!--            <span sec:authentication="name"></span></h2>-->
-<!--        <h4><a href="/logout">Выйти</a></h4>-->
-<!--    </div>-->
-<!--</div>-->
+<div>
+    <div sec:authorize="!isAuthenticated()">
+        <h4><a href="/login">Войти</a></h4>
+        <h4><a href="/registration">Зарегистрироваться</a></h4>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <h2>Здравствуйте,
+            <span sec:authentication="name"></span></h2>
+        <h4><a href="/logout">Выйти</a></h4>
+    </div>
+</div>
 <h1>Здесь главный лендинг</h1>
 </body>
 </html>

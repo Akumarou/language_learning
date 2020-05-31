@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Профиль сотрудника</title>
+</head>
+
+<body>
+<div th:insert="header :: head"></div>
+<h1>Параметры</h1>
+<label>Имя:<span th:text="${theEmployee.firstName}"></span> (для изменения обратитесь в администрацию)</label><br/>
+<label>Фамилия: <span th:text="${theEmployee.lastName}"></span> (для изменения обратитесь в администрацию)</label><br/>
+<label>Должность:<span th:text="${theEmployee.position}"></span> (для изменения обратитесь в администрацию)</label>
+<label>Телефон:<span th:text="${theEmployee.phone}"></span> (для изменения обратитесь в администрацию)</label>
+<label>Дата рождения:<span th:text="${theEmployee.birthday}"></span> (для изменения обратитесь в администрацию)</label>
+<br/>
+<form th:action="@{/employee/changeEmplInfo}" method="post" >
+    <label>E-mail: <input type="text" name="email" th:value="${theEmployee.email}"/></label><br/>
+    <button type="submit">Сохранить</button>
+    <span th:if="${info!=null}"><p style="color: green;" th:text="${info}"></p></span>
+</form><br/><hr/><br/><hr/><br/>
+<form th:action="@{/employee/changeEmplPassword}" method="post" >
+    <label>Старый пароль: <input type="password" name="oldPass"/></label><br/>
+    <label>Новый пароль: <input type="password" name="newPass"/></label><br/>
+    <label>Новый пароль(повторить): <input type="password" name="repPass"/></label><br/>
+    <button type="submit">Сохранить</button>
+    <span th:if="${err!=null}"><p style="color: red;" th:text="${err}"></p></span>
+    <span th:if="${infopass!=null}"><p style="color: green;" th:text="${infopass}"></p></span>
+</form>
+</body>
+</html>

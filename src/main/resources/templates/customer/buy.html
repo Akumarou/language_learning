@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Оформление подписки</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:insert="header :: head"></div>
+<h1>Доступные к подписке курсы</h1>
+<table>
+    <tr>
+        <td>Курс</td>
+        <td>Стоимость</td>
+        <td>Краткая информация</td>
+        <td>Главный преподаватель</td>
+        <td>Количество курсов</td>
+        <td></td>
+    </tr>
+    <tr th:each="course:${availableCourses}">
+        <td th:text="${course.name}"></td>
+        <td th:text="${course.getCost()}"></td>
+        <td th:text="${course.info}"></td>
+        <td th:text="${course.mainTeacher.firstName + ' '+ course.mainTeacher.lastName}"></td>
+        <td th:text="${course.getCountOfCourses()}"></td>
+        <td>
+            <form th:action="@{/customer/buy}" method="post">
+                <input type="hidden" name="id" th:value="${course.id}"/>
+                <button type="submit">Оформить подписку</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
